@@ -110,5 +110,5 @@ def internal_error(error):
 #   gunicorn -w 4 -b 0.0.0.0:5001 app:app
 
 # Local development/testing:
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=8000)
+# if __name__ == '__main__':
+#     app.run(debug=False, host='0.0.0.0', port=8000)
