@@ -106,6 +106,11 @@ def admin_contacts():
 def internal_error(error):
     return render_template('500.html'), 500
 
+@app.errorhandler(404)
+def page_not_found(error):
+    """Redirect all 404 errors to home page"""
+    return redirect(url_for('index'))
+
 # For production, run with Gunicorn:
 #   gunicorn -w 4 -b 0.0.0.0:5001 app:app
 
