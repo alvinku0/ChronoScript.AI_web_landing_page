@@ -29,5 +29,3 @@ A responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
 5. **Contact** - Contact form and location
 
 The navigation automatically scrolls to the corresponding sections when clicked.
-
-## Webapp Setup
