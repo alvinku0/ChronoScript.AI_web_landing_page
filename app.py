@@ -29,6 +29,7 @@ def submit_contact():
         first_name = request.form.get('firstName', '').strip()
         last_name = request.form.get('lastName', '').strip()
         email = request.form.get('email', '').strip()
+        company_name = request.form.get('companyName', '').strip()
         message = request.form.get('message', '').strip()
         
         # Basic validation
@@ -46,7 +47,7 @@ def submit_contact():
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ.get('REMOTE_ADDR'))
         
         # Create new contact using SQLAlchemy
-        contact = Contact.create_contact(first_name, last_name, email, message, ip_address)
+        contact = Contact.create_contact(first_name, last_name, email, company_name, message, ip_address)
         
         return jsonify({
             'success': True, 

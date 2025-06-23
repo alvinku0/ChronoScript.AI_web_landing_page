@@ -13,6 +13,7 @@ class Contact(db.Model):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=True)
     email = db.Column(db.String(255), nullable=False)
+    company_name = db.Column(db.String(200), nullable=True)
     message = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     ip_address = db.Column(db.String(45), nullable=True)  # IPv6 can be up to 45 chars
@@ -27,18 +28,20 @@ class Contact(db.Model):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
+            'company_name': self.company_name,
             'message': self.message,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'ip_address': self.ip_address
         }
     
     @classmethod
-    def create_contact(cls, first_name, last_name, email, message, ip_address=None):
+    def create_contact(cls, first_name, last_name, email, company_name, message, ip_address=None):
         """Create a new contact form submission"""
         contact = cls(
             first_name=first_name,
             last_name=last_name,
             email=email,
+            company_name=company_name,
             message=message,
             ip_address=ip_address
         )
