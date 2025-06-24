@@ -76,8 +76,7 @@ The application uses SQLite for storing contact form submissions. The database w
    User=ubuntu
    Group=ubuntu
    WorkingDirectory=/home/ubuntu/ChronoScript.AI_web_landing_page
-   Environment=SECRET_KEY=70dcxxxxxxxxxxxxxxxxxxxxxxx
-   Environment=ADMIN_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxxxx
+   EnvironmentFile=/home/ubuntu/ChronoScript.AI_web_landing_page/.env
    ExecStart=/home/ubuntu/ChronoScript.AI_web_landing_page/myvenv/bin/gunicorn --workers 5 --bind 127.0.0.1:8000 app:app
    Restart=always
 
