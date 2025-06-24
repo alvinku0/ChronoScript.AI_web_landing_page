@@ -120,13 +120,8 @@ New Contact Form Submission - ChronoScript.AI:
 Name: {first_name} {last_name}
 Email: {email}
 Company: {company_name if company_name else 'Not provided'}
-IP Address: {ip_address}
-
-Message:
-{message if message else 'No message provided'}
-
-Contact ID: {contact.id}
 Submission Time: {contact.created_at}
+Message: {message if message else 'No message provided'}
 """
             
             msg.html = f"""
@@ -146,23 +141,14 @@ Submission Time: {contact.created_at}
         <td style="padding: 8px; border: 1px solid #ddd;">{company_name if company_name else 'Not provided'}</td>
     </tr>
     <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">IP Address:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">{ip_address}</td>
-    </tr>
-    <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Contact ID:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">{contact.id}</td>
-    </tr>
-    <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Submission Time:</td>
         <td style="padding: 8px; border: 1px solid #ddd;">{contact.created_at}</td>
     </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Message:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{message if message else 'No message provided'}</td>
+    </tr>
 </table>
-
-<h3>Message:</h3>
-<div style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; margin: 10px 0;">
-    {message if message else 'No message provided'}
-</div>
 
 <p style="color: #666; font-size: 12px; margin-top: 20px;">
     This email was automatically generated from the ChronoScript.AI contact form.
