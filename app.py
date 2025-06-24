@@ -5,6 +5,7 @@ from flask_limiter.util import get_remote_address
 from flask_limiter.errors import RateLimitExceeded
 from flask_mail import Mail, Message
 import os
+import re
 
 app = Flask(__name__)
 
@@ -18,9 +19,20 @@ limiter = Limiter(
 
 # Secret key to cryptographically sign session cookies
 app.secret_key = os.environ.get('SECRET_KEY')
+if not app.secret_key:
+    raise ValueError("SECRET_KEY environment variable is required for production")
 
 # Admin password to read contacts information
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+if not ADMIN_PASSWORD:
+    raise ValueError("ADMIN_PASSWORD environment variable is required")
+
+# Validate production environment variables
+required_env_vars = ['MAIL_SERVER', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_DEFAULT_SENDER']
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+if missing_vars:
+    print(f"Warning: Missing environment variables: {', '.join(missing_vars)}")
+    print("Email functionality may not work properly")
 
 # flask_mail configuration
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
@@ -41,6 +53,18 @@ init_db(app)
 # Initialize Flask-Mail
 mail = Mail(app)
 
+# Security headers for production
+@app.after_request
+def security_headers(response):
+    """Add security headers to all responses"""
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+    return response
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -56,16 +80,24 @@ def submit_contact():
         company_name = request.form.get('companyName', '').strip()
         message = request.form.get('message', '').strip()
         
-        # Basic validation
+        # Validation
         if not first_name:
             return jsonify({'success': False, 'error': 'First name is required'}), 400
         
         if not email:
             return jsonify({'success': False, 'error': 'Email is required'}), 400
         
-        # Basic email validation
-        if '@' not in email or '.' not in email:
+        # Improved email validation
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_pattern, email):
             return jsonify({'success': False, 'error': 'Please enter a valid email address'}), 400
+        
+        # Sanitize inputs (basic XSS prevention)
+        first_name = first_name[:100]  # Limit length
+        last_name = last_name[:100] if last_name else ''
+        email = email[:255]
+        company_name = company_name[:200] if company_name else ''
+        message = message[:5000] if message else ''  # Limit message length
         
         # Get client IP address
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ.get('REMOTE_ADDR'))
@@ -210,7 +242,11 @@ def handle_rate_limit_exceeded(e):
 
 @app.errorhandler(500)
 def internal_error(error):
-    return render_template('500.html'), 500
+    """Handle internal server errors"""
+    return jsonify({
+        'success': False,
+        'error': 'Internal server error. Please try again later.'
+    }), 500
 
 @app.errorhandler(404)
 def page_not_found(error):
