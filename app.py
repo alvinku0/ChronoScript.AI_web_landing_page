@@ -1,14 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from database.models import db, Contact, init_db
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_limiter.errors import RateLimitExceeded
+from flask_mail import Mail, Message
 import os
 
 app = Flask(__name__)
+
+# Initialize rate limiter
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+)
 
 # Secret key to cryptographically sign session cookies
 app.secret_key = os.environ.get('SECRET_KEY')
 
 # Admin password to read contacts information
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')\
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 # flask_mail configuration
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
@@ -26,11 +38,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize database
 init_db(app)
 
+# Initialize Flask-Mail
+mail = Mail(app)
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/submit_contact', methods=['POST'])
+@limiter.limit("3 per hour")
 def submit_contact():
     try:
         # Get form data
@@ -57,6 +73,78 @@ def submit_contact():
         # Create new contact using SQLAlchemy
         contact = Contact.create_contact(first_name, last_name, email, company_name, message, ip_address)
         
+        # Send email notification
+        try:
+            # Create email message
+            msg = Message(
+                subject="New Contact Submission - ChronoScript.AI",
+                recipients=[app.config['MAIL_DEFAULT_SENDER']]  # Send to admin email
+            )
+            
+            # Email body
+            msg.body = f"""
+New Contact Form Submission - ChronoScript.AI:
+
+Name: {first_name} {last_name}
+Email: {email}
+Company: {company_name if company_name else 'Not provided'}
+IP Address: {ip_address}
+
+Message:
+{message if message else 'No message provided'}
+
+Contact ID: {contact.id}
+Submission Time: {contact.created_at}
+"""
+            
+            msg.html = f"""
+<h2>New Contact Form Submission - ChronoScript.AI</h2>
+
+<table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Name:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{first_name} {last_name}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Email:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><a href="mailto:{email}">{email}</a></td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Company:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{company_name if company_name else 'Not provided'}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">IP Address:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{ip_address}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Contact ID:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{contact.id}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Submission Time:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{contact.created_at}</td>
+    </tr>
+</table>
+
+<h3>Message:</h3>
+<div style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; margin: 10px 0;">
+    {message if message else 'No message provided'}
+</div>
+
+<p style="color: #666; font-size: 12px; margin-top: 20px;">
+    This email was automatically generated from the ChronoScript.AI contact form.
+</p>
+"""
+            
+            # Send the email
+            mail.send(msg)
+            print(f"Email notification sent for contact submission {contact.id}")
+            
+        except Exception as email_error:
+            print(f"Failed to send email notification: {str(email_error)}")
+            # Don't fail the entire request if email fails - contact is already saved
+        
         return jsonify({
             'success': True, 
             'message': 'Thank you for your message! We will get back to you soon.',
@@ -66,7 +154,7 @@ def submit_contact():
     except Exception as e:
         db.session.rollback()  # Rollback in case of error
         print(f"Error submitting contact form: {str(e)}")
-        return jsonify({'success': False, 'error': 'An error occurred while submitting your message. Please try again.'}), 500
+        return jsonify({'success': False, 'error': 'An error occurred while submitting your message. Please email us for support.'}), 500
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
@@ -111,6 +199,15 @@ def admin_contacts():
         print(f"Error fetching contacts: {str(e)}")
         return "Error fetching contacts", 500
 
+@app.errorhandler(RateLimitExceeded)
+def handle_rate_limit_exceeded(e):
+    """Handle rate limit exceeded errors for contact form submissions"""
+    return jsonify({
+        'success': False, 
+        'error': 'You have submitted too many requests. Please email us for support.',
+        'retry_after': getattr(e, 'retry_after', 3600)  # 1 hour in seconds
+    }), 429
+
 @app.errorhandler(500)
 def internal_error(error):
     return render_template('500.html'), 500
@@ -124,5 +221,5 @@ def page_not_found(error):
 #   gunicorn -w 4 -b 0.0.0.0:5001 app:app
 
 # Local development/testing:
-# if __name__ == '__main__':
-#     app.run(debug=False, host='0.0.0.0', port=8000)
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=8000)
