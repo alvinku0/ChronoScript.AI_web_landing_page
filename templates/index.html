@@ -12,11 +12,12 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .hero-gradient {
+        .hero-background {
             background-image: url('/static/image/background.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         
         .gradient-text {
@@ -313,12 +314,12 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-gradient relative min-h-screen flex items-center pt-16 sm:pt-20 md:pt-24 lg:pt-0">
+    <section id="home" class="hero-background relative min-h-screen flex items-start pt-16 lg:pt-0">
         <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-            <div class="flex flex-col items-center text-center">
+            <div class="flex flex-col text-center">
                 <!-- Text Content -->
-                <div class="mt-4 sm:mt-8 lg:mt-20 mb-8 sm:mb-12 lg:mb-16">
-                    <h1 class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                <div class="mt-4 sm:mt-6 md:mt-8 lg:mt-20 mb-8 sm:mb-12 lg:mb-16">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                         Optimise your legal practice with<br>
                         AI-powered
                         <div class="word-carousel-wrapper">
@@ -339,15 +340,15 @@
                         <p>ChronoScript uses AI to transform the way lawyers work</p>
                         <p>with cases and documents, leading to:</p>
                         <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mt-4 text-blue-700 font-medium">
-                            <span class="inline-flex items-center bg-blue-50 px-3 py-1 rounded-full text-sm">
+                            <span class="inline-flex items-center bg-blue-50 px-4 py-1.5 rounded-full text-sm">
                                 <i class="fas fa-clock mr-2 text-blue-600"></i>
                                 Shorter preparation time
                             </span>
-                            <span class="inline-flex items-center bg-purple-50 px-3 py-1 rounded-full text-sm">
+                            <span class="inline-flex items-center bg-purple-50 px-4 py-1.5 rounded-full text-sm">
                                 <i class="fas fa-brain mr-2 text-purple-600"></i>
                                 Better managed knowledge
                             </span>
-                            <span class="inline-flex items-center bg-green-50 px-3 py-1 rounded-full text-sm">
+                            <span class="inline-flex items-center bg-green-50 px-4 py-1.5 rounded-full text-sm">
                                 <i class="fas fa-chart-line mr-2 text-green-600"></i>
                                 More cases handled efficiently
                             </span>
