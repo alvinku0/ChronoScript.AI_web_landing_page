@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - ChronoScript.AI</title>
+    <link rel="icon" type="image/png" href="/static/image/chronoscript-icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .terms-section {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .terms-toc {
+            background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .terms-toc a {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            display: block;
+        }
+        
+        .terms-toc a:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(0.5rem);
+        }
+        
+        .section-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(to right, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .contact-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full bg-white/90 backdrop-blur-md shadow-lg z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center group">
+                        <img src="/static/image/chronoscript-icon.png" alt="ChronoScript.AI Logo" class="h-8 w-8 mr-2 transition-transform group-hover:scale-110">
+                        <span class="text-xl font-bold gradient-text">ChronoScript.AI</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-home mr-2"></i>Home
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="/#product" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-balance-scale mr-2"></i>Product
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="/#security" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-shield-alt mr-2"></i>Data Security
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="/#contact" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-envelope mr-2"></i>Contact
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Login Button -->
+                <div class="hidden lg:block">
+                    <a href="https://chronoscript.ai/login" class="btn-premium text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
+                        Launch App
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="lg:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 backdrop-blur-md shadow-lg">
+                <a href="/" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="/#product" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-balance-scale mr-3"></i>Product
+                </a>
+                <a href="/#security" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-shield-alt mr-3"></i>Data Security
+                </a>
+                <a href="/#contact" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-envelope mr-3"></i>Contact
+                </a>
+                <a href="https://chronoscript.ai/login" class="btn-premium w-full text-left text-white px-3 py-3 text-base font-medium rounded-md mt-3 block">
+                    Launch App
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Header Section -->
+        <section class="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center fade-in-up">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-600/10 border border-blue-600/20 rounded-full text-blue-600 text-sm font-medium mb-6">
+                        <i class="fas fa-file-contract mr-2"></i>
+                        Legal Agreement
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                        <span class="gradient-text">Terms of Service</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Please read these terms and conditions carefully before using ChronoScript.AI services
+                    </p>
+                    <div class="mt-6 text-sm text-gray-500">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Last Updated: June 30, 2025
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terms Content -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                    <!-- Table of Contents -->
+                    <div class="lg:col-span-1">
+                        <div class="terms-toc rounded-xl p-6 sticky top-24">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">
+                                <i class="fas fa-list mr-2 text-blue-600"></i>
+                                Table of Contents
+                            </h3>
+                            <nav class="space-y-2">
+                                <a href="#acceptance" class="text-sm text-gray-600 hover:text-blue-600">1. Acceptance of Terms</a>
+                                <a href="#description" class="text-sm text-gray-600 hover:text-blue-600">2. Service Description</a>
+                                <a href="#accounts" class="text-sm text-gray-600 hover:text-blue-600">3. User Accounts</a>
+                                <a href="#usage" class="text-sm text-gray-600 hover:text-blue-600">4. Acceptable Use</a>
+                                <a href="#privacy" class="text-sm text-gray-600 hover:text-blue-600">5. Privacy & Data</a>
+                                <a href="#intellectual" class="text-sm text-gray-600 hover:text-blue-600">6. Intellectual Property</a>
+                                <a href="#billing" class="text-sm text-gray-600 hover:text-blue-600">7. Billing & Payment</a>
+                                <a href="#termination" class="text-sm text-gray-600 hover:text-blue-600">8. Termination</a>
+                                <a href="#disclaimer" class="text-sm text-gray-600 hover:text-blue-600">9. Disclaimers</a>
+                                <a href="#limitation" class="text-sm text-gray-600 hover:text-blue-600">10. Limitation of Liability</a>
+                                <a href="#indemnification" class="text-sm text-gray-600 hover:text-blue-600">11. Indemnification</a>
+                                <a href="#modifications" class="text-sm text-gray-600 hover:text-blue-600">12. Modifications</a>
+                                <a href="#governing" class="text-sm text-gray-600 hover:text-blue-600">13. Governing Law</a>
+                                <a href="#contact" class="text-sm text-gray-600 hover:text-blue-600">14. Contact Information</a>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Terms Content -->
+                    <div class="lg:col-span-3">
+                        <div class="space-y-12">
+                            <!-- Introduction -->
+                            <div class="highlight-box">
+                                <div class="flex items-start">
+                                    <i class="fas fa-info-circle text-blue-600 text-xl mt-1 mr-4 flex-shrink-0"></i>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 mb-2">Important Notice</h3>
+                                        <p class="text-gray-700 leading-relaxed">
+                                            These Terms of Service constitute a legally binding agreement between you and ChronoScript.AI. 
+                                            By accessing or using our services, you agree to be bound by these terms. If you do not agree 
+                                            to these terms, please do not use our services.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 1: Acceptance of Terms -->
+                            <div id="acceptance" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">1</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Acceptance of Terms</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                By accessing, browsing, or using the ChronoScript.AI platform and services 
+                                                (collectively, the "Services"), you acknowledge that you have read, understood, 
+                                                and agree to be bound by these Terms of Service and all applicable laws and regulations.
+                                            </p>
+                                            <p>
+                                                These terms apply to all users of the Services, including but not limited to 
+                                                legal professionals, law firms, corporate legal departments, and individual practitioners.
+                                            </p>
+                                            <p>
+                                                If you are accessing or using the Services on behalf of a company, organization, 
+                                                or other legal entity, you represent and warrant that you have the authority to 
+                                                bind such entity to these terms.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Service Description -->
+                            <div id="description" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">2</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Service Description</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                ChronoScript.AI provides artificial intelligence-powered legal workflow tools 
+                                                designed to assist legal professionals with case management, document analysis, 
+                                                chronology creation, and legal research.
+                                            </p>
+                                            <p>Our Services include, but are not limited to:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>AI-powered document indexing and summarization</li>
+                                                <li>Automated chronology generation from case documents</li>
+                                                <li>Case management and organization tools</li>
+                                                <li>Legal research assistance and recommendations</li>
+                                                <li>Document drafting and template generation</li>
+                                                <li>Knowledge base creation and management</li>
+                                            </ul>
+                                            <p>
+                                                We reserve the right to modify, suspend, or discontinue any part of our Services 
+                                                at any time, with or without notice, though we will make reasonable efforts to 
+                                                provide advance notice of significant changes.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: User Accounts -->
+                            <div id="accounts" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">3</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">User Accounts and Registration</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                To access certain features of our Services, you must register for an account. 
+                                                You agree to provide accurate, complete, and current information during registration 
+                                                and to update such information as necessary.
+                                            </p>
+                                            <p>You are responsible for:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>Maintaining the confidentiality of your account credentials</li>
+                                                <li>All activities that occur under your account</li>
+                                                <li>Immediately notifying us of any unauthorized use of your account</li>
+                                                <li>Ensuring that your account information remains accurate and up-to-date</li>
+                                            </ul>
+                                            <p>
+                                                We reserve the right to refuse service, terminate accounts, or cancel orders 
+                                                at our sole discretion, particularly if we suspect fraudulent, abusive, or 
+                                                illegal activity.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 4: Acceptable Use -->
+                            <div id="usage" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">4</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Acceptable Use Policy</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                You agree to use our Services only for lawful purposes and in accordance with 
+                                                applicable laws, regulations, and professional standards.
+                                            </p>
+                                            <p>You agree NOT to use our Services to:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>Violate any applicable laws, regulations, or professional codes of conduct</li>
+                                                <li>Infringe upon the intellectual property rights of others</li>
+                                                <li>Upload or process confidential information without proper authorization</li>
+                                                <li>Attempt to gain unauthorized access to our systems or other users' accounts</li>
+                                                <li>Use automated systems to access the Services without our written permission</li>
+                                                <li>Interfere with or disrupt the operation of our Services</li>
+                                                <li>Share, sell, or redistribute your account access to third parties</li>
+                                            </ul>
+                                            <p>
+                                                Violation of this Acceptable Use Policy may result in immediate suspension 
+                                                or termination of your account without prior notice.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 5: Privacy and Data Security -->
+                            <div id="privacy" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">5</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Privacy and Data Security</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                Your privacy and the security of your data are of paramount importance to us. 
+                                                Our collection, use, and protection of your information are governed by our 
+                                                Privacy Policy, which is incorporated into these Terms by reference.
+                                            </p>
+                                            <p>Key data protection commitments:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>All data is encrypted in transit and at rest using industry-standard encryption</li>
+                                                <li>Your case data and documents are never used to train our AI models</li>
+                                                <li>Data is stored securely in your designated geographic region</li>
+                                                <li>We implement comprehensive access controls and audit logging</li>
+                                                <li>Regular security assessments and compliance audits are conducted</li>
+                                            </ul>
+                                            <p>
+                                                You retain ownership of all content and data you upload to our platform. 
+                                                We process this data solely to provide our Services to you and as outlined 
+                                                in our Privacy Policy.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 6: Intellectual Property -->
+                            <div id="intellectual" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">6</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Intellectual Property Rights</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                The ChronoScript.AI platform, including its software, algorithms, artificial 
+                                                intelligence models, user interface, and all related intellectual property, 
+                                                is owned by ChronoScript.AI and protected by applicable intellectual property laws.
+                                            </p>
+                                            <p>Your Content:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>You retain all rights to content and data you upload to our platform</li>
+                                                <li>You grant us a limited license to process your content solely to provide our Services</li>
+                                                <li>You represent that you have the right to upload and process all content you submit</li>
+                                                <li>You are responsible for ensuring your content does not violate third-party rights</li>
+                                            </ul>
+                                            <p>
+                                                Output generated by our AI tools may be used by you in accordance with applicable 
+                                                professional standards and ethical guidelines. However, you remain responsible for 
+                                                reviewing, verifying, and taking professional responsibility for any AI-generated content.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 7: Billing and Payment -->
+                            <div id="billing" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">7</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Billing and Payment Terms</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                Subscription fees are billed in advance on a monthly or annual basis, depending 
+                                                on your chosen plan. All fees are non-refundable except as expressly stated in 
+                                                these Terms or required by applicable law.
+                                            </p>
+                                            <p>Payment Terms:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>Fees are due and payable in advance</li>
+                                                <li>We accept major credit cards and bank transfers</li>
+                                                <li>You authorize us to charge your payment method for recurring fees</li>
+                                                <li>Failed payments may result in service suspension after notice</li>
+                                                <li>Price changes will be communicated with at least 30 days' notice</li>
+                                            </ul>
+                                            <p>
+                                                You may cancel your subscription at any time, but no refunds will be provided 
+                                                for prepaid periods. Your access to the Services will continue until the end 
+                                                of your current billing period.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 8: Termination -->
+                            <div id="termination" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">8</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Account Termination</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                Either party may terminate this agreement at any time. You may terminate by 
+                                                canceling your subscription through your account settings or by contacting us.
+                                            </p>
+                                            <p>We may terminate your account if:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>You breach these Terms of Service</li>
+                                                <li>You fail to pay applicable fees after notice</li>
+                                                <li>We suspect fraudulent or abusive activity</li>
+                                                <li>Required by law or legal process</li>
+                                                <li>We discontinue the Services (with reasonable notice)</li>
+                                            </ul>
+                                            <p>
+                                                Upon termination, your access to the Services will cease, and we will make your 
+                                                data available for download for a period of 90 days, after which it may be deleted 
+                                                in accordance with our data retention policies.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 9: Disclaimers -->
+                            <div id="disclaimer" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">9</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Disclaimers and Limitations</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                <strong>Important:</strong> ChronoScript.AI provides tools to assist legal 
+                                                professionals but does not provide legal advice. You remain solely responsible 
+                                                for all legal decisions and professional judgments.
+                                            </p>
+                                            <p>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, INCLUDING:</p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>No warranty of uninterrupted or error-free operation</li>
+                                                <li>No warranty that AI-generated content is accurate or complete</li>
+                                                <li>No warranty of fitness for any particular purpose</li>
+                                                <li>No warranty that the Services will meet your specific requirements</li>
+                                            </ul>
+                                            <p>
+                                                You acknowledge that artificial intelligence technology has inherent limitations 
+                                                and that all AI-generated content must be reviewed and verified by qualified 
+                                                legal professionals before use.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 10: Limitation of Liability -->
+                            <div id="limitation" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">10</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Limitation of Liability</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                TO THE MAXIMUM EXTENT PERMITTED BY LAW, CHRONOSCRIPT.AI SHALL NOT BE LIABLE 
+                                                FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, 
+                                                INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, OR BUSINESS OPPORTUNITIES.
+                                            </p>
+                                            <p>
+                                                Our total liability to you for all claims arising from or related to the Services 
+                                                shall not exceed the amount you paid to us during the twelve months preceding 
+                                                the claim.
+                                            </p>
+                                            <p>
+                                                Some jurisdictions do not allow the exclusion or limitation of liability for 
+                                                consequential or incidental damages, so the above limitation may not apply to you.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 11: Indemnification -->
+                            <div id="indemnification" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">11</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Indemnification</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                You agree to indemnify, defend, and hold harmless ChronoScript.AI, its affiliates, 
+                                                officers, directors, employees, and agents from and against any claims, liabilities, 
+                                                damages, losses, costs, or expenses arising from:
+                                            </p>
+                                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                                <li>Your use of the Services</li>
+                                                <li>Your violation of these Terms</li>
+                                                <li>Your violation of any applicable law or regulation</li>
+                                                <li>Your infringement of any third-party rights</li>
+                                                <li>Content you upload or process through our Services</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 12: Modifications -->
+                            <div id="modifications" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">12</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Modifications to Terms</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                We may modify these Terms of Service from time to time to reflect changes in 
+                                                our Services, legal requirements, or business practices.
+                                            </p>
+                                            <p>
+                                                When we make material changes, we will provide notice by email to your registered 
+                                                email address and/or through the Services at least 30 days before the changes 
+                                                take effect.
+                                            </p>
+                                            <p>
+                                                Your continued use of the Services after the effective date of any modifications 
+                                                constitutes your acceptance of the updated Terms. If you do not agree to the 
+                                                modified Terms, you must stop using the Services.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 13: Governing Law -->
+                            <div id="governing" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">13</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Governing Law and Dispute Resolution</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                These Terms shall be governed by and construed in accordance with the laws of 
+                                                [Jurisdiction], without regard to its conflict of law provisions.
+                                            </p>
+                                            <p>
+                                                Any disputes arising from or relating to these Terms or the Services shall be 
+                                                resolved through binding arbitration, except that either party may seek injunctive 
+                                                relief in court to protect intellectual property rights.
+                                            </p>
+                                            <p>
+                                                If any provision of these Terms is found to be unenforceable, the remaining 
+                                                provisions shall remain in full force and effect.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 14: Contact Information -->
+                            <div id="contact" class="terms-section">
+                                <div class="flex items-start">
+                                    <span class="section-number">14</span>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Contact Information</h2>
+                                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                                            <p>
+                                                If you have any questions about these Terms of Service or need to contact us 
+                                                regarding your account or the Services, please reach out to us:
+                                            </p>
+                                            <div class="contact-box">
+                                                <h4 class="text-lg font-semibold text-gray-900 mb-4">Get in Touch</h4>
+                                                <div class="space-y-3">
+                                                    <div class="flex items-center justify-center">
+                                                        <i class="fas fa-envelope text-blue-600 mr-3"></i>
+                                                        <span class="text-gray-700">tech@chronoscript.ai</span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mt-4">
+                                                    We typically respond to inquiries within 24 hours during business days.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="/static/image/chronoscript-icon.png" alt="ChronoScript.AI Logo" class="h-8 w-8 mr-2">
+                        <span class="text-xl font-bold gradient-text">ChronoScript.AI</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Empowering legal professionals with AI-powered workflow tools for enhanced productivity and efficiency.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="/terms" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="/#security" class="hover:text-white transition-colors">Data Security</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            tech@chronoscript.ai
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">© 2025 by ChronoScript.AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for smooth scrolling and mobile menu -->
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all fade-in-up elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+                // Close mobile menu if open
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Active section highlighting in TOC
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('[id]');
+            const tocLinks = document.querySelectorAll('.terms-toc a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('text-blue-600', 'font-semibold');
+                link.classList.add('text-gray-600');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.remove('text-gray-600');
+                    link.classList.add('text-blue-600', 'font-semibold');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
