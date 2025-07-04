@@ -4,33 +4,91 @@ A responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
 
 ## Features
 
-- Responsive design for mobile and desktop
-- Smooth scrolling navigation
-- Modern gradient hero section
-- Product features showcase
-- Security infrastructure section
-- About section
-- Contact form with map placeholder
-- Mobile-friendly navigation menu
+- 🎨 **Modern Design**: Responsive design optimized for mobile and desktop
+- 🚀 **Smooth Navigation**: Smooth scrolling navigation with animated word carousel
+- 🌈 **Gradient Hero Section**: Eye-catching hero with animated elements
+- 📱 **Mobile-First**: Mobile-friendly navigation menu and layouts
+- 📋 **Contact System**: Advanced contact form with email notifications
+- 🔒 **Security**: Production-grade security with rate limiting and input validation
+- 📄 **Terms of Service**: Complete legal terms page with consistent styling
+- 👑 **Admin Panel**: Secure admin interface for managing contact submissions
+- ⚡ **Production ready**: Optimized for production deployment with Gunicorn
 
-## Technology Stack
+## 🛠️ Technology Stack
 
-- **Backend**: Flask
-- **Frontend**: HTML5, Tailwind CSS
-- **JavaScript**: Vanilla JS for interactivity
+- **Backend**: Flask 3.1.1 with SQLAlchemy
+- **Frontend**: HTML5, Tailwind CSS 4.0 (CDN)
+- **JavaScript**: Vanilla JS for smooth interactions
+- **Database**: SQLite (production-ready with PostgreSQL support)
+- **Email**: Flask-Mail with SMTP integration
+- **Security**: Flask-Limiter, comprehensive input validation
+- **Server**: Gunicorn for production deployment
 - **Fonts**: Google Fonts (Inter)
+- **Icons**: Font Awesome 6.0
 
-## Sections
+## 📄 Page Structure
 
-1. **Home** - Hero section with main value proposition
-2. **Product** - Three-column feature showcase
-3. **Data & Security** - Security infrastructure overview
-4. **About** - Company information in two columns
-5. **Contact** - Contact form and location
+### Main Landing Page (`/`)
+1. **Home** - Hero section with animated word carousel and main value proposition
+2. **Product** - Three-column feature showcase with hover animations
+3. **Security** - Data protection and infrastructure overview with security icons
+4. **About** - Company information in responsive two-column layout
+5. **Contact** - Advanced contact form with real-time validation and email integration
 
-The navigation automatically scrolls to the corresponding sections when clicked.
+### Additional Pages
+- **Terms of Service** (`/terms`) - Complete legal terms with consistent styling
+- **Admin Login** (`/admin/login`) - Secure admin authentication
+- **Admin Dashboard** (`/admin/contacts`) - Contact submissions management
 
-## Database Setup
+## 🔒 Security Features ✅
+
+- ✅ **Rate Limiting**: 3 contact submissions per hour per IP, 20 requests/hour default
+- ✅ **Input Validation**: Email regex validation, length limits, XSS prevention
+- ✅ **SQL Injection Protection**: SQLAlchemy ORM with parameterized queries
+- ✅ **Security Headers**: CSP, HSTS, XSS protection, frame options, CSRF protection
+- ✅ **Session Security**: Secure session handling with cryptographic signing
+- ✅ **Admin Protection**: Password-protected admin area with session management
+- ✅ **Error Handling**: Graceful error handling without information disclosure
+- ✅ **Environment Variables**: Secure configuration management
+- ✅ **Email Validation**: Advanced email validation with regex patterns
+- ✅ **Input Sanitization**: Length limits and content filtering
+
+## 🚀 Production Features
+
+- 🚀 **Gunicorn Configuration**: Multi-worker production server setup (`gunicorn.conf.py`)
+- 📊 **Health Monitoring**: `/health` endpoint for load balancer checks
+- 📝 **Comprehensive Logging**: Rotating file handlers and structured logging (`logging_config.py`)
+- 🔧 **Deployment Scripts**: Automated deployment with environment validation (`deploy.sh`)
+- 🌐 **Nginx Ready**: Reverse proxy configuration included
+- 📧 **Email Integration**: SMTP email notifications for contact submissions
+- 🗄️ **Database Management**: Automatic database initialization and migrations
+
+## 🔧 Configuration
+
+### Environment Variables (`.env`)
+
+```bash
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=False
+FLASK_ENV=production
+
+# Admin Login Configuration
+ADMIN_PASSWORD=your-admin-password-here
+
+# Email Configuration
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USE_TLS=True
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_DEFAULT_SENDER=your-email@gmail.com
+
+# Database Configuration
+DATABASE_URL=sqlite:///database/contacts.db
+```
+
+### Database Setup
 
 The application uses SQLite for storing contact form submissions. The database will be created automatically when the application starts.
 
@@ -141,7 +199,7 @@ certbot --nginx -d your-domain.com
 
 - **Restart the service:**
   ```bash
-  systemctl restart ChronoScript
+  sudo systemctl restart ChronoScript
   ```
 
 - **Check service status:**
@@ -151,7 +209,7 @@ certbot --nginx -d your-domain.com
   ```
 
 ### Security Features Implemented
-- ✅ Rate limiting (3 submissions/hour per IP)
+- ✅ Rate limiting
 - ✅ Input validation and sanitization
 - ✅ SQL injection protection (SQLAlchemy ORM)
 - ✅ XSS protection headers
