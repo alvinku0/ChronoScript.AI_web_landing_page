@@ -69,6 +69,11 @@ def security_headers(response):
 def index():
     return render_template('index.html')
 
+@app.route('/terms')
+def terms():
+    """Terms of Service page"""
+    return render_template('terms.html')
+
 @app.route('/submit_contact', methods=['POST'])
 @limiter.limit("3 per hour")
 def submit_contact():

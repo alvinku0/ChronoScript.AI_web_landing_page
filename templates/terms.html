@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - ChronoScript.AI</title>
+    <link rel="icon" type="image/png" href="/static/image/chronoscript-icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .terms-content {
+            line-height: 1.8;
+        }
+        
+        .terms-content h2 {
+            color: #1f2937;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .terms-content h3 {
+            color: #374151;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .terms-content p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+        
+        .terms-content ul {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            color: #4b5563;
+            list-style-type: disc;
+        }
+        
+        .terms-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-number {
+            color: #000000;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full bg-white/90 backdrop-blur-md shadow-lg z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center group">
+                        <img src="/static/image/chronoscript-icon.png" alt="ChronoScript.AI Logo" class="h-8 w-8 mr-2 transition-transform group-hover:scale-110">
+                        <span class="text-xl font-bold gradient-text">ChronoScript.AI</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/#home" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            Home
+                        </a>
+                        <a href="/#product" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            Product
+                        </a>
+                        <a href="/#security" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            Security
+                        </a>
+                        <a href="/#about" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            About
+                        </a>
+                        <a href="/#contact" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Login Button -->
+                <div class="hidden lg:block">
+                    <a href="https://chronoscript.ai/login" class="btn-premium text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
+                        Launch App
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="lg:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 backdrop-blur-md shadow-lg">
+                <a href="/#home" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="/#product" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-balance-scale mr-3"></i>Product
+                </a>
+                <a href="/#security" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-shield-alt mr-3"></i>Data Security
+                </a>
+                <a href="/#about" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-users mr-3"></i>About
+                </a>
+                <a href="/#contact" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium">
+                    <i class="fas fa-envelope mr-3"></i>Contact
+                </a>
+                <a href="https://chronoscript.ai/login" class="btn-premium w-full text-left text-white px-3 py-3 text-base font-medium rounded-md mt-3 block">
+                    Launch App
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    <span class="gradient-text">Terms of Service</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-2">Last Updated: 04 July 2025</p>
+            </div>
+
+            <!-- Terms Content -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 terms-content">
+                <p class="text-xl text-gray-700 font-medium mb-6">Welcome to ChronoScript!</p>
+                <p>These Terms and Conditions ("Terms") are entered into between ChronoScript.AI ("ChronoScript," "we," or "us") and you or the entity you represent ("you"). These Terms govern your access to and use of the ChronoScript platform, software and services (collectively, the "Services").</p>
+
+                <p>By accessing or using the Services, you agree to be bound by these Terms and all applicable laws and regulations. You further agree to comply with all laws and regulations applicable to your use of the Services. If you are using ChronoScript on behalf of an entity, you represent and warrant that you have the authority to bind that entity to these Terms.</p>
+
+                <p>ChronoScript.AI reserves the right to modify these Terms at any time. We will notify you of any material changes by posting the new Terms on our website or by sending you an email. Your continued use of the Service after such changes constitutes your acceptance of the new Terms.</p>
+
+                <h2 class="section-number">1. CHRONOSCRIPT'S PROVISION OF SERVICES</h2>
+
+                <h3><span class="section-number">1.1</span> Provision of Services.</h3>
+                <p>ChronoScript is a workflow management platform designed for legal professionals. Subject to your compliance with these Terms, ChronoScript grants you a non-exclusive, non-transferable right to access and use the Services. We will use commercially reasonable efforts to make the Services available, except for planned downtime and any unavailability caused by circumstances beyond our reasonable control.</p>
+
+                <h3><span class="section-number">1.2</span> Intended Use.</h3>
+                <p>The Service is designed and intended to be used by licensed legal professionals. Your use of the Service for any other purpose or in any other manner is at your own risk.</p>
+
+                <h3><span class="section-number">1.3</span> Changes to Services.</h3>
+                <p>The Services may evolve over time. ChronoScript reserves the right, at its sole discretion, to update, modify, add, or remove features and functionalities of the Services, at any time.</p>
+
+                <h2 class="section-number">2. CUSTOMER'S USE OF SERVICES</h2>
+
+                <h3><span class="section-number">2.1</span> Account Security.</h3>
+                <p>You are fully responsible for all activities that occur under your account. You agree to: (a) maintain the strict confidentiality of your account credentials; (b) not share your account credentials with any other person or entity; and (c) immediately notify ChronoScript in writing of any unauthorized use of your account or any other security breach of which you become aware.</p>
+
+                <h3><span class="section-number">2.2</span> Responsibility for Customer Content.</h3>
+                <p>You are solely responsible for all data, information, and materials you provide to the Services ("Customer Content"). You represent and warrant that: (a) you have all necessary rights, licenses, and permissions to process the Customer Content using our Service; and (b) your Customer Content complies with all applicable laws and the restrictions in these Terms.</p>
+
+                <h3><span class="section-number">2.3</span> Use Restrictions.</h3>
+                <p>You agree that you will not engage in any of the following prohibited activities:</p>
+                <ul>
+                    <li>Reverse engineer, decompile, disassemble, or otherwise attempt to discover the source code or underlying components of the Services.</li>
+                    <li>Copy, modify, or create derivative works of the Services or any part thereof.</li>
+                    <li>Resell, lease, sublicense, or otherwise distribute the Services to any third party.</li>
+                    <li>Use the Services to develop or train a competing product or service.</li>
+                    <li>Use the Services for competitive analysis, benchmarking, or to extract usage data.</li>
+                    <li>Remove, alter, or obscure any proprietary notices (including copyright and trademark notices) from the Services.</li>
+                    <li>Exploit any bugs, vulnerabilities, or security loopholes in the Service.</li>
+                    <li>Introduce any viruses, worms, or other malicious code into the Service.</li>
+                </ul>
+
+                <h3><span class="section-number">2.4</span> Prohibited Content.</h3>
+                <p>You must not use the Services to generate or distribute any harmful or illegal content that includes but not limited to:</p>
+                <ul>
+                    <li>Infringe on Rights: Using the Services to create content with the primary purpose of infringing upon or violating the intellectual property, privacy, or other rights of any third party, outside the context of legitimate legal analysis or dispute.</li>
+                    <li>Malicious Activities: Generating spam, creating phishing attempts, or creating or distributing misleading information.</li>
+                </ul>
+
+                <h3><span class="section-number">2.5</span> General Compliance.</h3>
+                <p>You must use the Services in full compliance with all applicable laws, regulations, and professional ethical obligations, including but not limited to court rules, procedural requirements, and duties of client confidentiality.</p>
+
+                <h3><span class="section-number">2.6</span> Suspension and Termination.</h3>
+                <p>We reserve the right to suspend or terminate your access to the Services, without notice, if we determine that your use: (a) violates these Terms; (b) poses a security risk to the Services, our systems, or any third party; (c) adversely affects the integrity or operation of our systems.</p>
+
+                <h2 class="section-number">3. INTELLECTUAL PROPERTY RIGHTS</h2>
+
+                <h3><span class="section-number">3.1</span> Your Content.</h3>
+                <p>You retain all rights to your Customer Content. You grant ChronoScript a limited license to process your Customer Content solely to provide the Services to you. We will never use your Customer Content to train AI models. We will never share, sell, or disclose your Customer Content to any third party, except as required to provide the Services. For more detailed information on data security, please see Section 5, Data Protection and Privacy.</p>
+
+                <h3><span class="section-number">3.2</span> AI Content Ownership.</h3>
+                <p>ChronoScript and its third-party service providers do not claim ownership rights to the AI generated content. However, Customer acknowledges that similar or identical AI Content may be independently generated for other users (in any case, without the use of your Customer Content), and such similarity does not grant Customer exclusive rights to particular outputs or limit other users' rights to similar content.</p>
+
+                <h3><span class="section-number">3.3</span> ChronoScript Property.</h3>
+                <p>All ChronoScript software, algorithms, and proprietary methods remain our exclusive property.</p>
+
+                <h2 class="section-number">4. THIRD-PARTY SERVICES</h2>
+
+                <h3><span class="section-number">4.1</span> Acknowledgment of Service Dependencies.</h3>
+                <p>You acknowledge that the Service is built on and integrates with essential third-party services that are not owned or controlled by ChronoScript. Our third-party services are:</p>
+                <ul>
+                    <li>Amazon Web Services (AWS)</li>
+                    <li>Google</li>
+                </ul>
+
+                <h3><span class="section-number">4.2</span> Compliance with Third-Party Terms.</h3>
+                <p>To use our Service, you must comply with the terms and policies of our essential third-party service providers. By agreeing to these Terms, you also agree to be bound by the following, which may be updated by the respective providers at any time:</p>
+                <ul>
+                    <li>AWS Service Terms</li>
+                    <li>Google APIs Terms of Service</li>
+                    <li>Gemini API Additional Terms of Service</li>
+                </ul>
+                <p>A breach of any of the foregoing third-party terms will be considered a material breach of these ChronoScript Terms of Service. It is your responsibility to review these third-party terms regularly.</p>
+
+                <h2 class="section-number">5. DATA PROTECTION AND PRIVACY</h2>
+
+                <h3><span class="section-number">5.1</span> Our Commitment.</h3>
+                <p>At ChronoScript, your data security is our top priority. We are committed to protecting your data. We implement and maintain industry-standard information security measures with administrative, physical, and technical safeguards designed to protect your data. We build platforms engineered for trust and reliability to power the legal workflow.</p>
+                <p>We will not sell your data under any circumstances, and we will not use your Customer Content to train our or any third-party foundation models. We take all necessary measures to uphold this commitment.</p>
+
+                <h3><span class="section-number">5.2</span> Secure Cloud Infrastructure.</h3>
+                <p>We build our Services on the cloud infrastructure provided by Amazon Web Services (AWS) and Google. These providers are responsible for the physical and environmental security of the data centers and underlying network. They maintain leading industry certifications and attestations, such as SOC 2 Type II, ISO 27001, and FedRAMP High.</p>
+
+                <h3><span class="section-number">5.3</span> Our Security Measures.</h3>
+                <p>We implement and maintain technical and organizational security measures designed to protect your Data. These measures include:</p>
+                <ul>
+                    <li>Encryption: We encrypt your Data both in transit and at rest using industry-standard encryption protocols.</li>
+                    <li>Access Control: We enforce strict access controls using strong authentication protocols and the principle of least privilege. Access to your Data within ChronoScript's technical team is restricted to authorized personnel based on their job responsibilities.</li>
+                    <li>Regular Audits: We conduct regular security assessments to identify and remediate potential vulnerabilities.</li>
+                </ul>
+
+                <h3><span class="section-number">5.4</span> Data Location and Processing.</h3>
+                <p>You may select the geographic region where your data is stored. While your Data remains stored in your chosen region, computing and LLM processing may occur in different regions transiently. All data processing is subject to the security measures outlined in these Terms.</p>
+
+                <h3><span class="section-number">5.5</span> Usage Analytics.</h3>
+                <p>ChronoScript and our third party data processor may collect and process your Usage Data. "Usage Data" refers to technical data derived from the use of the Services (e.g., how frequently you access the Services, software crash reports, authentication details, performance metrics, device identifiers, identifiers from cookies or tokens, and IP addresses). Usage Data is separate from and does not include Customer Content (the materials you upload and process)</p>
+
+                <h3><span class="section-number">5.6</span> Data Retention and Deletion.</h3>
+                <p>We retain your data only for as long as is necessary to provide the Services to you or to comply with our legal obligations. When you delete your account, your Data will be scheduled for permanent deletion from our active systems. We may retain Usage Data or legally required logs for a limited period for security, billing, and legal compliance purposes.</p>
+
+                <h3><span class="section-number">5.7</span> Human Access.</h3>
+                <p>We will not access or review your Customer Content except in the following limited circumstances:</p>
+                <ul>
+                    <li>With your explicit and affirmative consent.</li>
+                    <li>To resolve technical errors or service disruptions.</li>
+                    <li>To investigate a potential violation of our policies or to protect the security and integrity of the Services.</li>
+                    <li>To comply with a binding legal obligation, such as a court order or subpoena.</li>
+                </ul>
+
+                <h3><span class="section-number">5.8</span> Your Data Rights.</h3>
+                <p>You have the right to manage your data. Subject to applicable law, you may request to access, correct, export, or delete your data. You can make such requests through the application, your account settings or by contacting our support team. We will respond to your request within a reasonable timeframe.</p>
+
+                <h2 class="section-number">6. DISCLAIMERS & ACKNOWLEDGMENTS</h2>
+
+                <h3><span class="section-number">6.1</span> No Legal Advice.</h3>
+                <p>You expressly understand and agree that ChronoScript is a productivity tool. The Service and any generated content do not constitute legal advice. The Service is not a substitute for professional legal judgment.</p>
+
+                <h3><span class="section-number">6.2</span> Acknowledgment of AI Limitations and Inaccuracies.</h3>
+                <p>You acknowledge that the Services utilize generative artificial intelligence. You understand that any output and content generated by the AI is probabilistic by nature and may be inaccurate. You are solely responsible for reviewing, editing, fact-checking, and independently verifying all AI Content before any use or reliance.</p>
+
+                <h3><span class="section-number">6.3</span> Disclaimer of Warranties and Liability.</h3>
+                <p>The Services and all Content are provided on an "as is" and "as available" basis. Except to the extent prohibited by law, ChronoScript makes no warranties, including but not limited to the warranty of fitness for a particular purpose, accuracy, and non-infringement. We are not liable for any damages or losses arising from your use of or reliance on the Services or any AI Content. You must exercise your own professional judgment when using the Services.</p>
+
+                <h2 class="section-number">7. CONFIDENTIALITY</h2>
+
+                <h3><span class="section-number">7.1</span> Mutual Obligations.</h3>
+                <p>Both parties agree to maintain the confidentiality of any non-public information shared in connection with these Services.</p>
+
+                <h3><span class="section-number">7.2</span> Legal Obligations.</h3>
+                <p>We may disclose information if required by law, court order, or regulatory requirement, with reasonable notice where permitted.</p>
+
+                <h2 class="section-number">8. FEES AND PAYMENT</h2>
+
+                <h3><span class="section-number">8.1</span> Subscription Fees and Billing.</h3>
+                <p>You agree to pay all applicable fees as described in your subscription plan. All fees are due in advance on a recurring basis and are non-refundable, except as expressly stated in these Terms or as required by law. Your subscription will automatically renew for successive periods equal to your initial subscription term unless you cancel your subscription through your account settings prior to the renewal date.</p>
+
+                <h3><span class="section-number">8.2</span> Fee Changes.</h3>
+                <p>ChronoScript reserves the right to modify its subscription fees at any time. We will provide you with at least 30 days of prior written notice of any fee changes before they become effective. Your continued use of the Services after a fee change constitutes your agreement to pay the modified fee amount.</p>
+
+                <h3><span class="section-number">8.3</span> Late Payments.</h3>
+                <p>Past due amounts may be subject to finance charges and we may suspend Services for overdue accounts.</p>
+
+                <h2 class="section-number">9. TERM AND TERMINATION</h2>
+
+                <h3><span class="section-number">9.1</span> Term.</h3>
+                <p>These Terms commence upon first use and continue until terminated.</p>
+
+                <h3><span class="section-number">9.2</span> Termination.</h3>
+                <p>Either party may terminate any subscription to Services (i) if the other party breaches any of its obligations under these Terms and such breach is not cured within thirty (30) days of receipt of notice from the non-breaching party, or (ii) if the other party becomes insolvent or bankrupt, liquidated or is dissolved, or ceases substantially all of its business. Notwithstanding the foregoing, we may terminate your subscription to the Services immediately in the event of your material breach of these Terms of Service, as determined by us in our sole discretion.</p>
+
+                <h3><span class="section-number">9.3</span> Effect of Termination.</h3>
+                <p>Upon termination of these Terms, you will immediately discontinue all use of the Services, cease to represent that you are a user of the Services, and destroy all our confidential information in your possession. Neither party will be liable for any damages resulting from a valid termination of any subscription(s) to Services; provided, however, that termination will not affect any claim arising prior thereto. For a period of thirty (30) days following termination, we will make your Customer Content available for you to export. After this period, your Customer Content will be scheduled for permanent deletion from our systems.</p>
+
+                <h2 class="section-number">10. INDEMNIFICATION</h2>
+
+                <p>You agree to defend and indemnify ChronoScript and its third-party data processor from and against any claims, damages, losses, and expenses arising out of or in any way connected with your access to or use of the Service, or your violation of these Terms.</p>
+
+                <h2 class="section-number">11. GOVERNING LAW AND DISPUTES</h2>
+
+                <h3><span class="section-number">11.1</span> Governing Law.</h3>
+                <p>These Terms shall be governed by the laws of the Hong Kong Special Administrative Region, the People's Republic of China.</p>
+
+                <h3><span class="section-number">11.2</span> Dispute Resolution.</h3>
+                <p>The parties agree to first attempt to resolve any dispute through good faith negotiations, as outlined in a formal written notice of dispute. Any dispute, controversy, difference or claim arising out of or relating to this Terms, including the existence, validity, interpretation, performance, breach or termination thereof or any dispute regarding non-contractual obligations arising out of or relating to it shall be referred to and finally resolved by arbitration administered by the Hong Kong International Arbitration Centre (HKIAC) under the HKIAC Administered Arbitration Rules in force when the Notice of Arbitration is submitted.</p>
+
+                <h2 class="section-number">12. CONTACT INFORMATION</h2>
+
+                <p>For questions about these Terms or our Services, please contact:</p>
+                <p class="font-semibold text-gray-900 mb-2">ChronoScript.AI</p>
+                <p class="text-gray-700 mb-1">Email: <a href="mailto:tech@chronoscript.ai" class="underline hover:text-blue-600">tech@chronoscript.ai</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+                <div class="text-gray-400 text-sm mb-4 sm:mb-0">
+                    Copyright © 2025 ChronoScript.AI. All rights reserved.
+                </div>
+                <div class="text-gray-400 text-sm">
+                    <a href="/terms" class="hover:text-white transition-colors duration-300">Terms of Use & Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for mobile menu -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
