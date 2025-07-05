@@ -6,6 +6,7 @@ from flask_limiter.errors import RateLimitExceeded
 from flask_mail import Mail, Message
 import os
 import re
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -73,6 +74,11 @@ def index():
 def terms():
     """Terms of Service page"""
     return render_template('terms.html')
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint"""
+    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow()})
 
 @app.route('/submit_contact', methods=['POST'])
 @limiter.limit("3 per hour")

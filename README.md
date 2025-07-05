@@ -212,14 +212,12 @@ certbot --nginx -d your-domain.com
 - ✅ Rate limiting
 - ✅ Input validation and sanitization
 - ✅ SQL injection protection (SQLAlchemy ORM)
-- ✅ XSS protection headers
-- ✅ CSRF protection considerations
 - ✅ Secure session handling
 - ✅ Email validation with regex
 - ✅ Input length limits
 - ✅ Error handling without information disclosure
 
-### (to-do) Additional Production Recommendations
+### Additional Production Recommendations
 
 1. **SSL/HTTPS**: Use Let's Encrypt or similar
 2. **Firewall**: Configure UFW or iptables
@@ -227,10 +225,7 @@ certbot --nginx -d your-domain.com
 4. **Updates**: Regular security updates
 5. **Backup**: Automated database backups
 6. **CDN**: Consider CloudFlare for additional protection
-
-### (to-do) Security Considerations Still Needed
-
-1. **CSRF Tokens**: Consider Flask-WTF for forms
-2. **Content Security Policy**: Fine-tune CSP headers
-3. **Logging**: Add security event logging
-4. **Health Checks**: Add /health endpoint for monitoring
+7. **CSRF Tokens**: Consider Flask-WTF for forms
+8. **Content Security Policy**: Fine-tune CSP headers
+9. **Logging**: Add security event logging
+10. **Health Checks**: Add /health endpoint for monitoring
