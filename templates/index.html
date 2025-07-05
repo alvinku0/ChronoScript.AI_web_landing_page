@@ -12,6 +12,45 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        
+        /* === SECTION BADGE CONSISTENCY === */
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: text-sm;
+            font-weight: 600; /* font-semibold */
+            text-transform: uppercase;
+            letter-spacing: 0.05em; /* tracking-wide */
+            border-radius: 9999px; /* rounded-full */
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Theme badge for light theme */
+        .section-badge-light {
+            background-color: rgb(219 234 254); /* bg-blue-100 */
+            color: rgb(37 99 235); /* text-blue-600 */
+        }
+        
+        /* Theme badge for Contacts Section */
+        .section-badge-dark {
+            background-color: rgba(55, 65, 81, 0.8); /* bg-gray-700/80 */
+            color: white;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(75, 85, 99, 0.5); /* border-gray-600/50 */
+        }
+        
+        /* Theme badge for data security section */
+        .section-badge-security {
+            background-color: rgba(37, 99, 235, 0.2); /* bg-blue-600/20 */
+            color: rgb(96, 165, 250); /* text-blue-400 */
+        }
+        
         .hero-background {
             background-image: url('/static/image/background_crop.png');
             background-size: cover;
@@ -20,7 +59,6 @@
             background-attachment: fixed;
         }
         
-        /* Fix background for mobile devices */
         @media (max-width: 768px) {
             .hero-background {
                 background-attachment: scroll;
@@ -87,30 +125,15 @@
         }
         
         /* --- Animated Word Carousel Styles --- */
-        /* 1. Wrapper for the animated words.
-           - It's an inline-block to flow with text.
-           - `position: relative` to contain the absolutely positioned spinner.
-           - `vertical-align: middle` helps align it with the text.
-           - `height` is set to match the line-height to prevent vertical jumps.
-        */
         .word-carousel-wrapper {
             display: inline-block;
             position: relative;
         }
 
-        /* 2. Invisible placeholder.
-           - Contains the longest word to set the width of the wrapper.
-           - `visibility: hidden` makes it take up space but not be visible.
-        */
         .placeholder {
             visibility: hidden;
         }
         
-        /* 3. The spinner container.
-           - Positioned absolutely to sit on top of the placeholder.
-           - `transform-style: preserve-3d` is crucial for the 3D effect.
-           - The `animation` property applies the spinning keyframes.
-        */
         .word-carousel {
             position: absolute;
             top: 0;
@@ -118,14 +141,9 @@
             right: 0;
             bottom: 0;
             transform-style: preserve-3d;
-            animation: spin 12s infinite; /* 12s total duration for 4 words */
+            animation: spin 12s infinite;
         }
 
-        /* 4. The individual words (faces of the carousel).
-           - Positioned absolutely to stack on top of each other.
-           - Centered with flexbox.
-           - `backface-visibility: hidden` prevents seeing the back of the text.
-        */
         .carousel-face {
             position: absolute;
             width: 100%;
@@ -134,62 +152,52 @@
             align-items: center;
             justify-content: center;
             backface-visibility: hidden;
-            color: #6366F1; /* A nice highlight color matching the gradient */
+            color: #6366F1;
         }
         
-        /* 5. Positioning each face in 3D space.
-           - Each face is rotated around the X-axis and pushed out on the Z-axis.
-           - With 4 items, using 90-degree spacing for perfect separation.
-           - The `translateZ` value determines the radius of the carousel.
-        */
         .carousel-face:nth-child(1) {
-            transform: rotateX(0deg) translateZ(50px);
+            transform: rotateX(0deg) translateZ(35px);
         }
         .carousel-face:nth-child(2) {
-            transform: rotateX(90deg) translateZ(50px);
+            transform: rotateX(90deg) translateZ(35px);
         }
         .carousel-face:nth-child(3) {
-            transform: rotateX(180deg) translateZ(50px);
+            transform: rotateX(180deg) translateZ(35px);
         }
         .carousel-face:nth-child(4) {
-            transform: rotateX(270deg) translateZ(50px);
+            transform: rotateX(270deg) translateZ(35px);
         }
 
-        /* 6. The spin animation keyframes.
-           - The animation rotates the entire `.word-carousel` container.
-           - It pauses on each word for a duration before spinning to the next.
-        */
         @keyframes spin {
             0%, 20% {
-                transform: rotateX(0deg); /* Start on word 1 and hold */
+                transform: rotateX(0deg);
             }
             25%, 45% {
-                transform: rotateX(-90deg); /* Spin to word 2 and hold */
+                transform: rotateX(-90deg);
             }
             50%, 70% {
-                transform: rotateX(-180deg); /* Spin to word 3 and hold */
+                transform: rotateX(-180deg);
             }
             75%, 95% {
-                transform: rotateX(-270deg); /* Spin to word 4 and hold */
+                transform: rotateX(-270deg);
             }
             100% {
-                transform: rotateX(-360deg); /* Complete full rotation back to start */
+                transform: rotateX(-360deg);
             }
         }
         
-        /* --- Responsive Styles for Carousel --- */
         @media (max-width: 768px) {
             .carousel-face:nth-child(1) {
-                transform: rotateX(0deg) translateZ(35px);
+                transform: rotateX(0deg) translateZ(20px);
             }
             .carousel-face:nth-child(2) {
-                transform: rotateX(90deg) translateZ(35px);
+                transform: rotateX(90deg) translateZ(20px);
             }
             .carousel-face:nth-child(3) {
-                transform: rotateX(180deg) translateZ(35px);
+                transform: rotateX(180deg) translateZ(20px);
             }
             .carousel-face:nth-child(4) {
-                transform: rotateX(270deg) translateZ(35px);
+                transform: rotateX(270deg) translateZ(20px);
             }
         }
 
@@ -385,7 +393,7 @@
     <section id="product" class="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-600 text-sm font-semibold uppercase tracking-wide rounded-full mb-4">
+                <span class="section-badge section-badge-light">
                     <i class="fas fa-balance-scale mr-2"></i>Product
                 </span>
                 <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -442,7 +450,7 @@
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center mb-16 fade-in-up">
-                <span class="inline-block px-4 py-2 bg-blue-600/20 text-blue-400 text-sm font-semibold uppercase tracking-wide rounded-full mb-4">
+                <span class="section-badge section-badge-security">
                     <i class="fas fa-shield-alt mr-2"></i><i class="fas fa-shield-check mr-2"></i>Enterprise Security
                 </span>
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
@@ -502,7 +510,7 @@
     <section id="about" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-600 text-sm font-semibold uppercase tracking-wide rounded-full mb-4">
+                <span class="section-badge section-badge-light">
                     <i class="fas fa-users mr-2"></i>About Us
                 </span>
             </div>
@@ -549,7 +557,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <!-- Contact Info -->
                 <div class="fade-in-up">
-                    <div class="inline-block px-4 py-2 bg-gray-700/80 backdrop-blur-sm rounded-full text-sm font-medium text-white mb-6 border border-gray-600/50">
+                    <div class="section-badge section-badge-dark">
                         <i class="fas fa-envelope mr-2 text-blue-400"></i>
                         GET IN TOUCH
                     </div>
