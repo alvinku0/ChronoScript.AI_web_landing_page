@@ -20,6 +20,15 @@
             background-attachment: fixed;
         }
         
+        /* Fix background for mobile devices */
+        @media (max-width: 768px) {
+            .hero-background {
+                background-attachment: scroll;
+                background-size: cover;
+                background-position: center bottom;
+            }
+        }
+        
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
