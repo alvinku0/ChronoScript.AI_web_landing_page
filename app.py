@@ -242,7 +242,7 @@ def internal_error(error):
     """Handle internal server errors"""
     return jsonify({
         'success': False,
-        'error': 'Internal server error. Please try again later.'
+        'error': 'Server busy. Please try again later.'
     }), 500
 
 @app.errorhandler(404)
