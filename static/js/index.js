@@ -146,3 +146,73 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// Hero Image Carousel functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('heroCarousel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    if (!carousel || !prevBtn || !nextBtn) return;
+    
+    let currentSlide = 0;
+    const totalSlides = 3;
+    
+    // Function to update carousel position
+    function updateCarousel() {
+        const translateX = -currentSlide * 100;
+        carousel.style.transform = `translateX(${translateX}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlide);
+        });
+    }
+    
+    // Next slide function
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    }
+    
+    // Previous slide function
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', () => {
+        carousel.classList.remove('auto-play');
+        nextSlide();
+    });
+    
+    prevBtn.addEventListener('click', () => {
+        carousel.classList.remove('auto-play');
+        prevSlide();
+    });
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            carousel.classList.remove('auto-play');
+            currentSlide = index;
+            updateCarousel();
+        });
+    });
+    
+    // Image click to advance to next slide
+    const carouselImages = carousel.querySelectorAll('.carousel-slide img');
+    carouselImages.forEach(img => {
+        img.addEventListener('click', () => {
+            carousel.classList.remove('auto-play');
+            nextSlide();
+        });
+        // Add cursor pointer to indicate clickability
+        img.style.cursor = 'pointer';
+    });
+    
+    // Initialize carousel
+    updateCarousel();
+});

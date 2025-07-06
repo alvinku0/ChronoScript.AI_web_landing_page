@@ -227,14 +227,126 @@
             filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
         }
 
-        /* Enhanced Floating Animation */
-        .floating {
-            animation: floating 6s ease-in-out infinite;
+        /* --- Image Carousel Styles --- */
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: 15px;
+        }
+
+        .carousel-nav.next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-dot.active {
+            background: rgba(29, 78, 216, 1);
+            border: 2px solid rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+            box-shadow: 0 3px 6px rgba(29, 78, 216, 0.4);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(37, 99, 235, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Auto-play animation */
+        .carousel-container.auto-play {
+            animation: carousel-auto 15s infinite;
+        }
+
+        @keyframes carousel-auto {
+            0%, 30% {
+                transform: translateX(0%);
+            }
+            35%, 65% {
+                transform: translateX(-100%);
+            }
+            70%, 100% {
+                transform: translateX(-200%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-nav.prev {
+                left: 10px;
+            }
+            
+            .carousel-nav.next {
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -376,12 +488,39 @@
                     </div>
                 </div>
                 
-                <!-- Hero image/illustration -->
+                <!-- Hero image carousel -->
                 <div class="w-full max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
-                    <div class="relative group floating">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-transform duration-500">
-                            <img src="/static/image/chrono_inputs_UI.png" alt="ChronoScript AI Legal Workflow Interface" class="w-full h-auto object-contain">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-lg opacity-30"></div>
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                            <div class="image-carousel">
+                                <div class="carousel-container auto-play" id="heroCarousel">
+                                    <div class="carousel-slide">
+                                        <img src="/static/image/chrono_inputs_UI.png" alt="ChronoScript AI - Document Input Interface" class="w-full h-auto object-contain">
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <img src="/static/image/chrono_upload_UI.png" alt="ChronoScript AI - Facts Analysis Interface" class="w-full h-auto object-contain">
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <img src="/static/image/chrono_facts_UI.png" alt="ChronoScript AI - Document Upload Interface" class="w-full h-auto object-contain">
+                                    </div>
+                                </div>
+                                
+                                <!-- Navigation arrows -->
+                                <button class="carousel-nav prev" id="prevBtn">
+                                    <i class="fas fa-chevron-left text-blue-700"></i>
+                                </button>
+                                <button class="carousel-nav next" id="nextBtn">
+                                    <i class="fas fa-chevron-right text-blue-700"></i>
+                                </button>
+                                
+                                <!-- Dots indicator -->
+                                <div class="carousel-dots">
+                                    <div class="carousel-dot active" data-slide="0"></div>
+                                    <div class="carousel-dot" data-slide="1"></div>
+                                    <div class="carousel-dot" data-slide="2"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
