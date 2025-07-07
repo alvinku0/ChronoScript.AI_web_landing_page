@@ -389,6 +389,10 @@
                             <i class="fas fa-balance-scale mr-2"></i>Product
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
                         </a>
+                        <a href="#benefits" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-lightbulb mr-2"></i>Benefits
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
                         <a href="#security" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
                             <i class="fas fa-shield-alt mr-2"></i>Security
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
@@ -431,6 +435,9 @@
                 <a href="#product" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
                     <i class="fas fa-balance-scale mr-3"></i>Product
                 </a>
+                <a href="#benefits" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-lightbulb mr-3"></i>Benefits
+                </a>
                 <a href="#security" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
                     <i class="fas fa-shield-alt mr-3"></i>Security
                 </a>
@@ -451,8 +458,8 @@
     <section id="home" class="hero-background relative min-h-screen flex items-center justify-center">
         <div class="relative w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col text-center max-w-8xl mx-auto">
-                <!-- Text Content -->
                 <div class="mb-8 sm:mb-12 lg:mb-16">
+                    <!-- Title Text -->
                     <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-7xl 2xl:text-[5rem] font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                         Supercharge your legal practice with<br>
                         AI-powered
@@ -468,6 +475,7 @@
                             </div>
                         </div>
                     </h1>
+                    <!-- Buttons -->
                     <div class="mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                         <a href="#product" class="btn-premium text-white px-8 py-4 rounded-full text-lg font-medium shadow-xl">
                             <i class="fas fa-rocket mr-2"></i>Explore Features
@@ -476,6 +484,13 @@
                             <i class="fas fa-calendar-alt mr-2"></i>Book a Demo
                         </a>
                     </div>
+                    <!-- Scroll Indicator -->
+                    <a href="#product" class="absolute left-1/2 -bottom-32 transform -translate-x-1/2 animate-bounce hover:scale-110 transition-transform duration-300 cursor-pointer">
+                        <div class="flex flex-col items-center space-y-1">
+                            <i class="fas fa-chevron-down text-white/60 text-lg hover:text-white/80 transition-colors"></i>
+                            <i class="fas fa-chevron-down text-white/40 text-sm hover:text-white/60 transition-colors"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -573,12 +588,12 @@
     </section>
 
     <!-- Benefits Section -->
-    <section id="benefits" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+    <section id="benefits" class="py-20 bg-gradient-to-br from-gray-100 to-blue-100 relative overflow-hidden">
         <!-- Background decoration -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-20 -translate-y-48 translate-x-48"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-20 translate-y-48 -translate-x-48"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center mb-16">
                 <span class="section-badge section-badge-light">
                     <i class="fas fa-lightbulb mr-2"></i>Benefits
@@ -592,7 +607,7 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <!-- Benefit 1: Shorter preparation time -->
                 <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -639,8 +654,6 @@
             </div>
         </div>
     </section>
-
-    
 
     <!-- Security Section -->
     <section id="security" class="py-20 bg-gray-900 text-white relative overflow-hidden">
