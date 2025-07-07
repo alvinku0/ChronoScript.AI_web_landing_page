@@ -1,18 +1,6 @@
-# ChronoScript.AI Landing Page
+# ChronoScript.AI Landing Page (AI-generated documentation)
 
 A responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
-
-## Features
-
-- 🎨 **Modern Design**: Responsive design optimized for mobile and desktop
-- 🚀 **Smooth Navigation**: Smooth scrolling navigation with animated word carousel
-- 🌈 **Gradient Hero Section**: Eye-catching hero with animated elements
-- 📱 **Mobile-First**: Mobile-friendly navigation menu and layouts
-- 📋 **Contact System**: Advanced contact form with email notifications
-- 🔒 **Security**: Production-grade security with rate limiting and input validation
-- 📄 **Terms of Service**: Complete legal terms page with consistent styling
-- 👑 **Admin Panel**: Secure admin interface for managing contact submissions
-- ⚡ **Production ready**: Optimized for production deployment with Gunicorn
 
 ## 🛠️ Technology Stack
 
