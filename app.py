@@ -70,6 +70,10 @@ def security_headers(response):
 def index():
     return render_template('index.html')
 
+@app.route('/dev/test1')
+def index():
+    return render_template('index_test.html')
+
 @app.route('/terms')
 def terms():
     """Terms of Service page"""
