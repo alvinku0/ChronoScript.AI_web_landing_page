@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChronoScript.AI</title>
+    <link rel="icon" type="image/png" href="/static/image/chronoscript-icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        /* === SECTION BADGE === */
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: 600; /* font-semibold */
+            text-transform: uppercase;
+            letter-spacing: 0.05em; /* tracking-wide */
+            border-radius: 9999px; /* rounded-full */
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Theme badge for light theme */
+        .section-badge-light {
+            background-color: rgb(219 234 254); /* bg-blue-100 */
+            color: rgb(37 99 235); /* text-blue-600 */
+        }
+        
+        /* Theme badge for Contacts Section */
+        .section-badge-dark {
+            background-color: rgba(55, 65, 81, 0.8); /* bg-gray-700/80 */
+            color: white;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(75, 85, 99, 0.5); /* border-gray-600/50 */
+        }
+        
+        /* Theme badge for data security section */
+        .section-badge-security {
+            background-color: rgba(37, 99, 235, 0.2); /* bg-blue-600/20 */
+            color: rgb(96, 165, 250); /* text-blue-400 */
+        }
+        
+        .product-background {
+            /* Light grey-blue base */
+            background: linear-gradient(45deg, #728bb3e1 0%, #edc37ba0 100%);
+            
+            /* Oversize so blobs ease off the edges */
+            background-size: 180% 180%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        @media (max-width: 768px) {
+            .product-background {
+                background-attachment: scroll;
+                /* Fill mobile screens without stretching blobs oddly */
+                background-size: cover;
+                background-position: center bottom;
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        /* --- Animated Word Carousel Styles --- */
+        .word-carousel-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .placeholder {
+            visibility: hidden;
+        }
+        
+        .word-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform-style: preserve-3d;
+            animation: spin 12s infinite;
+        }
+
+        .carousel-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            color: #6366F1;
+        }
+        
+        .carousel-face:nth-child(1) {
+            transform: rotateX(0deg) translateZ(35px);
+        }
+        .carousel-face:nth-child(2) {
+            transform: rotateX(90deg) translateZ(35px);
+        }
+        .carousel-face:nth-child(3) {
+            transform: rotateX(180deg) translateZ(35px);
+        }
+        .carousel-face:nth-child(4) {
+            transform: rotateX(270deg) translateZ(35px);
+        }
+
+        @keyframes spin {
+            0%, 20% {
+                transform: rotateX(0deg);
+            }
+            25%, 45% {
+                transform: rotateX(-90deg);
+            }
+            50%, 70% {
+                transform: rotateX(-180deg);
+            }
+            75%, 95% {
+                transform: rotateX(-270deg);
+            }
+            100% {
+                transform: rotateX(-360deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .carousel-face:nth-child(1) {
+                transform: rotateX(0deg) translateZ(20px);
+            }
+            .carousel-face:nth-child(2) {
+                transform: rotateX(90deg) translateZ(20px);
+            }
+            .carousel-face:nth-child(3) {
+                transform: rotateX(180deg) translateZ(20px);
+            }
+            .carousel-face:nth-child(4) {
+                transform: rotateX(270deg) translateZ(20px);
+            }
+        }
+
+        /* Stagger Animation for Cards */
+        .stagger-animation {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .stagger-animation.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-animation:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animation:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animation:nth-child(3) { transition-delay: 0.3s; }
+
+        /* Security Icons Animation */
+        .security-icon {
+            transition: all 0.3s ease;
+        }
+
+        .security-icon:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+        }
+
+        /* --- Image Carousel Styles --- */
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: 15px;
+        }
+
+        .carousel-nav.next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-dot.active {
+            background: rgba(29, 78, 216, 1);
+            border: 2px solid rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+            box-shadow: 0 3px 6px rgba(29, 78, 216, 0.4);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(37, 99, 235, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Auto-play animation */
+        .carousel-container.auto-play {
+            animation: carousel-auto 10s infinite;
+        }
+
+        @keyframes carousel-auto {
+            0%, 30% {
+                transform: translateX(0%);
+            }
+            35%, 65% {
+                transform: translateX(-100%);
+            }
+            70%, 100% {
+                transform: translateX(-200%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-nav.prev {
+                left: 10px;
+            }
+            
+            .carousel-nav.next {
+                right: 10px;
+            }
+        }
+        
+        /* === HERO BACKGROUND STYLES === */
+        .hero-background {
+            position: relative;
+            background: linear-gradient(45deg, #728bb3e1 0%, #edc37ba0 100%);
+            overflow: hidden;
+        }
+
+        .hero-background .background {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            perspective: 1200px;
+        }
+
+        .hero-background .layer {
+            position: absolute;
+            width: 140vw;
+            height: 80vh;
+            transition: transform 1s cubic-bezier(.55,.5,.45,.5);
+            will-change: transform;
+        }
+
+        .hero-background .layer1 {
+            top: -60vh;
+            left: -20vw;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: linear-gradient(45deg, #f0e6d2 0%, #e6d4a0 100%);
+            box-shadow: 0 20px 60px 0 rgba(0,0,0,0.05);
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .hero-background .layer2 {
+            top: 78vh;
+            left: 0vw;
+            border-radius: 30% 70% 60% 40% / 40% 60% 30% 70%;
+            background: linear-gradient(45deg, #1e3a8a 0%, #112e8e 100%);
+            opacity: 0.1;
+            z-index: 2;
+        }
+
+        .hero-background .layer3 {
+            top: 88vh;
+            left: 5vw;
+            border-radius: 40% 60% 70% 30% / 60% 40% 30% 70%;
+            background: linear-gradient(45deg, #0f172a 0%, #020617 100%);
+            opacity: 0.2;
+            z-index: 3;
+        }
+
+        /* Responsive adjustments for hero background */
+        @media (max-width: 600px) {
+            .hero-background .layer {
+                width: 160vw;
+                height: 50vh;
+            }
+            
+            .hero-background .layer1 {
+                left: -30vw;
+            }
+            
+            .hero-background .layer2 {
+                left: 20vw;
+            }
+            
+            .hero-background .layer3 {
+                left: 15vw;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full bg-white/20 backdrop-blur-md shadow-lg z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#home" class="flex items-center group">
+                        <img src="/static/image/chronoscript-icon.png" alt="ChronoScript.AI Logo" class="h-8 w-8 mr-2 transition-transform group-hover:scale-110">
+                        <span class="text-xl font-bold gradient-text">ChronoScript.AI</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="text-blue-600 hover:text-blue-800 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-home mr-2"></i>Home
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="#product" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-balance-scale mr-2"></i>Product
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="#benefits" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-lightbulb mr-2"></i>Benefits
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="#security" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-shield-alt mr-2"></i>Security
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="#about" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-users mr-2"></i>About
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                        <a href="#contact" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-all duration-300 relative group">
+                            <i class="fas fa-envelope mr-2"></i>Contact
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Login Button -->
+                <div class="hidden lg:block">
+                    <a href="https://chronoscript.ai/login" class="btn-premium text-white px-6 py-2 rounded-full text-sm font-medium inline-flex items-center">
+                        Launch App
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="lg:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 backdrop-blur-md shadow-lg">
+                <a href="#home" class="text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="#product" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-balance-scale mr-3"></i>Product
+                </a>
+                <a href="#benefits" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-lightbulb mr-3"></i>Benefits
+                </a>
+                <a href="#security" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-shield-alt mr-3"></i>Security
+                </a>
+                <a href="#about" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-users mr-3"></i>About
+                </a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-600 block px-3 py-2 text-sm font-medium">
+                    <i class="fas fa-envelope mr-3"></i>Contact
+                </a>
+                <a href="https://chronoscript.ai/login" class="btn-premium w-full text-left text-white px-3 py-3 text-base font-medium rounded-md mt-3 block">
+                    Launch App
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-background relative min-h-screen flex items-center justify-center">
+        <!-- Animated Background Layers -->
+        <div class="background">
+            <div class="layer layer1"></div>
+            <div class="layer layer2"></div>
+            <div class="layer layer3"></div>
+        </div>
+        
+        <div class="relative w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col text-center max-w-8xl mx-auto">
+                <div class="mb-8 sm:mb-12 lg:mb-16">
+                    <!-- Title Text -->
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-7xl 2xl:text-[5rem] font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                        Supercharge your legal practice with<br>
+                        AI-powered
+                        <div class="word-carousel-wrapper">
+                            <!-- This invisible placeholder sets the width for the container -->
+                            <span class="placeholder">Document Drafting</span>
+                            <!-- This container holds the animated words -->
+                            <div class="word-carousel">
+                                <div class="carousel-face gradient-text">Case Management</div>
+                                <div class="carousel-face gradient-text">Bundles Review</div>
+                                <div class="carousel-face gradient-text">Knowledge Base</div>
+                                <div class="carousel-face gradient-text">Document Drafting</div>
+                            </div>
+                        </div>
+                    </h1>
+                    <!-- Buttons -->
+                    <div class="mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+                        <a href="#product" class="btn-premium text-white px-8 py-4 rounded-full text-lg font-medium shadow-xl">
+                            <i class="fas fa-rocket mr-2"></i>Explore Features
+                        </a>
+                        <a href="#contact" class="bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-calendar-alt mr-2"></i>Book a Demo
+                        </a>
+                    </div>
+                    <!-- Scroll Indicator -->
+                    <a href="#product" class="absolute left-1/2 -bottom-24 transform -translate-x-1/2 animate-bounce hover:scale-110 transition-transform duration-300 cursor-pointer">
+                        <div class="flex flex-col items-center space-y-1">
+                            <i class="fas fa-chevron-down text-white/60 text-lg hover:text-white/80 transition-colors"></i>
+                            <i class="fas fa-chevron-down text-white/40 text-sm hover:text-white/60 transition-colors"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Section -->
+    <section id="product" class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="section-badge section-badge-light">
+                    <i class="fas fa-balance-scale mr-2"></i>Product
+                </span>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+                    <span class="gradient-text">Revolutionise Your Legal Practice</span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-800 mb-6 sm:mb-8 max-w-4xl mx-auto font-normal leading-relaxed space-y-2">
+                    Discover powerful AI-driven tools designed specifically for modern legal professionals
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Case Management -->
+                <div class="feature-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <div class="w-20 h-20 bg-slate-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-folder-open text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Case Management</h3>
+                    <p class="text-gray-600 leading-relaxed text-center mb-6">
+                        Manage multiple cases and court documents with our intuitive case management interface, designed to enhance your productivity and efficiency
+                    </p>
+                </div>
+                
+                <!-- AI Empowered Toolbox -->
+                <div class="feature-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <div class="w-20 h-20 bg-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-brain text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">AI Empowered Toolbox</h3>
+                    <p class="text-gray-600 leading-relaxed text-center mb-6">
+                        Let AI index and summarise all case documents, create key facts and chronology, identify contradictions, apply labels and recommendations
+                    </p>
+                </div>
+                
+                <!-- Legal Research -->
+                <div class="feature-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <div class="w-20 h-20 bg-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-search text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Legal Research</h3>
+                    <p class="text-gray-600 leading-relaxed text-center mb-6">
+                        Access intelligent legal research to support your cases, strengthen your legal arguments and draft documents automatically
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Screenshot Carousel Section -->
+    <section id="screenshots" class="py-20 product-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-full max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-gray-800 via-gray-500 to-gray-800 rounded-3xl blur-lg opacity-30"></div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="image-carousel">
+                            <div class="carousel-container auto-play" id="heroCarousel">
+                                <div class="carousel-slide">
+                                    <img src="/static/image/chrono_inputs_UI.png" alt="ChronoScript AI - Document Input Interface" class="w-full h-auto object-contain">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="/static/image/chrono_upload_UI.png" alt="ChronoScript AI - Facts Analysis Interface" class="w-full h-auto object-contain">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="/static/image/chrono_facts_UI.png" alt="ChronoScript AI - Document Upload Interface" class="w-full h-auto object-contain">
+                                </div>
+                            </div>
+                            <!-- Navigation arrows -->
+                            <button class="carousel-nav prev" id="prevBtn">
+                                <i class="fas fa-chevron-left text-blue-700"></i>
+                            </button>
+                            <button class="carousel-nav next" id="nextBtn">
+                                <i class="fas fa-chevron-right text-blue-700"></i>
+                            </button>
+                            <!-- Dots indicator -->
+                            <div class="carousel-dots">
+                                <div class="carousel-dot active" data-slide="0"></div>
+                                <div class="carousel-dot" data-slide="1"></div>
+                                <div class="carousel-dot" data-slide="2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 bg-gradient-to-br from-gray-100 to-blue-100 relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-20 -translate-y-48 translate-x-48"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-20 translate-y-48 -translate-x-48"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16">
+                <span class="section-badge section-badge-light">
+                    <i class="fas fa-lightbulb mr-2"></i>Benefits
+                </span>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+                    <span class="gradient-text">Expand Your Competitive Edge</span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-4xl mx-auto font-normal leading-relaxed space-y-2">
+                    ChronoScript uses AI to transform the way lawyers work with cases and documents<br>
+                    Employ AI agents to execute routine tasks so you can focus on strategy and advocacy
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Benefit 1: Shorter preparation time -->
+                <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <div class="w-16 h-16 bg-slate-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-clock text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Shorter Preparation Time</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Reduce hours of manual work with AI-powered document processing and analysis
+                    </p>
+                </div>
+                
+                <!-- Benefit 2: Better managed knowledge -->
+                <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <div class="w-16 h-16 bg-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-brain text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Better Managed Knowledge</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Organize and access case information with intelligent indexing and search capabilities
+                    </p>
+                </div>
+                
+                <!-- Benefit 3: More cases handled efficiently -->
+                <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <div class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-tasks text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">More Cases Handled</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Increase your caseload capacity with streamlined workflows and automated processes
+                    </p>
+                </div>
+                
+                <!-- Benefit 4: Reduced mental load -->
+                <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    <div class="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-feather-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Reduced Mental Load</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Focus on strategy and advocacy while AI handles routine documentation tasks
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section id="security" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>');"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16 fade-in-up">
+                <span class="section-badge section-badge-security">
+                    <i class="fas fa-shield-alt mr-2"></i><i class="fas fa-shield-check mr-2"></i>Security
+                </span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+                    We Deploy a <span class="gradient-text">Secure Data and AI Infrastructure</span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto font-normal leading-relaxed space-y-2">
+                    Your data security is our top priority<br>
+                    We implement industry-leading security measures to protect your sensitive legal information
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16">
+                <div class="text-center group stagger-animation">
+                    <div class="w-16 h-16 bg-gradient-to-br from-slate-800 to-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 security-icon">
+                        <i class="fab fa-aws text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-slate-400 transition-colors">Amazon EC2</h3>
+                    <p class="text-gray-400 text-sm">Secure Cloud Infrastructure</p>
+                </div>
+                
+                <div class="text-center group stagger-animation">
+                    <div class="w-16 h-16 bg-gradient-to-br from-gray-800 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 security-icon">
+                        <i class="fas fa-user-shield text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-slate-400 transition-colors">OAuth 2.0</h3>
+                    <p class="text-gray-400 text-sm">Advanced Authentication &<br>Role Based Access</p>
+                </div>
+                
+                <div class="text-center group stagger-animation">
+                    <div class="w-16 h-16 bg-gradient-to-br from-slate-700 to-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4 security-icon">
+                        <i class="fas fa-lock text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-slate-400 transition-colors">HTTPS / SSL</h3>
+                    <p class="text-gray-400 text-sm">Data Encrypted in Transit</p>
+                </div>
+                
+                <div class="text-center group stagger-animation">
+                    <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-700 rounded-2xl flex items-center justify-center mx-auto mb-4 security-icon">
+                        <i class="fas fa-database text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-slate-400 transition-colors">Amazon S3</h3>
+                    <p class="text-gray-400 text-sm">Data Encrypted at Rest<br>Stored Locally in Your Region</p>
+                </div>
+                
+                <div class="text-center group stagger-animation">
+                    <div class="w-16 h-16 bg-gradient-to-br from-slate-600 to-slate-600 rounded-2xl flex items-center justify-center mx-auto mb-4 security-icon">
+                        <i class="fas fa-ban text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-slate-400 transition-colors">Zero Data Training</h3>
+                    <p class="text-gray-400 text-sm">Privileged Data Never Used for AI Training</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="section-badge section-badge-light">
+                    <i class="fas fa-users mr-2"></i>About Us
+                </span>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                        Secure & Compliant Legal AI Platform
+                    </h3>
+                    <div class="space-y-4">
+                        <p class="text-base text-gray-600 leading-relaxed">
+                            ChronoScript streamlines and supercharges your workflow using AI. Our <span class="text-blue-600 font-medium">lightning fast and reliable</span> technology summarises and indexes all your documentary evidences automatically
+                        </p>
+                        <p class="text-base text-gray-600 leading-relaxed">
+                            Generate precise, comprehensive, and customisable chronologies. <span class="text-blue-600 font-medium">Save hours of work and mental load</span> to prepare, organise, build, and share knowledge for each trial
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                        Your Trusted Legal Partner
+                    </h3>
+                    <div class="space-y-4">
+                        <p class="text-base text-gray-600 leading-relaxed">
+                            Our team is committed to building a product that helps you prepare for cases with <span class="text-blue-600 font-medium">confidence, reasoning, and unparalleled informational bandwidth</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-gray-100 to-blue-100 relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-20 -translate-y-48 -translate-x-48"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-20 translate-y-48 translate-x-48"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Contact Info -->
+                <div class="fade-in-up">
+                    <div class="section-badge section-badge-dark">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>
+                        GET IN TOUCH
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Ready to <span class="gradient-text">Transform</span> Your Legal Practice?
+                    </h2>
+                    <p class="text-base text-gray-600 mb-6 sm:mb-8 max-w-4xl mx-auto font-normal leading-relaxed">
+                        Reach out to us to explore how ChronoScript can empower your legal practice. Whether you have inquiries or are ready to get started, we are here to support you every step of the way
+                    </p>
+                    
+                    <!-- Contact Info Cards -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+                            <div class="w-12 h-12 bg-gradient-to-br from-slate-300 to-slate-600 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-900">Email</div>
+                                <div class="text-gray-600">tech@chronoscript.ai</div>
+                                <div class="text-gray-500 text-xs mt-1">Response Time: Within 24 hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="fade-in-up">
+                    <div class="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/50">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Get Your Custom Demo</h3>
+                            <p class="text-gray-600">See ChronoScript in action with your actual use cases</p>
+                        </div>
+                        
+                        <form id="contactForm" class="space-y-6" method="POST" action="/submit_contact">
+                            <div id="form-messages" class="hidden mb-4 p-3 rounded-md"></div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                    <input type="text" name="firstName" required
+                                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/70 backdrop-blur-sm transition-all duration-300">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                    <input type="text" name="lastName"
+                                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/70 backdrop-blur-sm transition-all duration-300"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                <input type="email" name="email" required
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/70 backdrop-blur-sm transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                                <input type="text" name="companyName"
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/70 backdrop-blur-sm transition-all duration-300"
+                                       placeholder="">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                                <textarea name="message" rows="4"
+                                          class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/70 backdrop-blur-sm resize-none transition-all duration-300"
+                                          placeholder="Tell us about your legal practice and how we can help..."></textarea>
+                            </div>
+                            
+                            <div>
+                                <button type="submit" id="submitBtn"
+                                        class="btn-premium w-full text-white py-4 px-6 rounded-xl text-base font-medium">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center text-center sm:text-left">
+                <div class="text-gray-400 text-sm mb-2 sm:mb-0">
+                    Copyright © 2025 ChronoScript.AI. All rights reserved.
+                </div>
+                <div class="text-gray-400 text-sm">
+                    <a href="/terms" class="hover:text-white transition-colors duration-300">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="/static/js/index.js"></script>
+</body>
+</html>

@@ -216,3 +216,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize carousel
     updateCarousel();
 });
+
+// === HERO BACKGROUND ANIMATION === 
+// Elegant 3D parallax animation on mouse move
+document.addEventListener('DOMContentLoaded', () => {
+    const layers = document.querySelectorAll('.hero-background .layer');
+    
+    if (layers.length > 0) {
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+            layers.forEach((layer, i) => {
+                const depth = (i + 1) * 20;
+                layer.style.transform = `
+                    translate3d(${x * depth}px, ${y * depth}px, ${-depth * 2}px)
+                    scale(${1 + i * 0.04})
+                    rotateX(${y * depth * 0.2}deg)
+                    rotateY(${x * depth * 0.2}deg)
+                `;
+            });
+        });
+
+        // Animate layers on load for a soft entrance
+        layers.forEach((layer, i) => {
+            if (layer.classList.contains('layer1')) {
+                // Layer 1 starts from above and slides down
+                layer.style.transform = `translate3d(0, -50vh, 0) scale(1)`;
+                setTimeout(() => {
+                    layer.style.transition = 'transform 1.5s cubic-bezier(.55,.5,.45,.5)';
+                    layer.style.transform = '';
+                }, 100);
+            } else {
+                // Other layers start from below and slide up
+                layer.style.transform = `translate3d(0, 100vh, 0) scale(1)`;
+                setTimeout(() => {
+                    layer.style.transition = 'transform 1.5s cubic-bezier(.55,.5,.45,.5)';
+                    layer.style.transform = '';
+                }, 100 + i * 200);
+            }
+        });
+    }
+});
