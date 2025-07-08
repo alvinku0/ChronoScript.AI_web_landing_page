@@ -80,17 +80,17 @@ def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow()})
 
-@app.route('/dev/index2')
-def index2():
-    return render_template('index2.html')
+# @app.route('/dev/index2')
+# def index2():
+#     return render_template('index2.html')
 
-@app.route('/dev/index3')
-def index3():
-    return render_template('index3.html')
+# @app.route('/dev/index3')
+# def index3():
+#     return render_template('index3.html')
 
-@app.route('/dev/index4')
-def index4():
-    return render_template('index4.html')
+# @app.route('/dev/index4')
+# def index4():
+#     return render_template('index4.html')
 
 @app.route('/submit_contact', methods=['POST'])
 @limiter.limit("3 per hour")
