@@ -218,42 +218,179 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === HERO BACKGROUND ANIMATION === 
-// Elegant 3D parallax animation on mouse move
+// Responsive 3D parallax animation with mobile optimization
 document.addEventListener('DOMContentLoaded', () => {
     const layers = document.querySelectorAll('.hero-background .layer');
     
     if (layers.length > 0) {
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        // Check if user prefers reduced motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Device and screen size detection
+        const isMobile = window.innerWidth <= 768;
+        const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        // Responsive animation parameters
+        const getAnimationParams = () => {
+            if (isMobile) {
+                return {
+                    depthMultiplier: 0.5,
+                    scaleMultiplier: 0.02,
+                    rotationMultiplier: 0.1,
+                    throttleDelay: 16 // ~60fps
+                };
+            } else if (isTablet) {
+                return {
+                    depthMultiplier: 0.75,
+                    scaleMultiplier: 0.03,
+                    rotationMultiplier: 0.15,
+                    throttleDelay: 12 // ~83fps
+                };
+            } else {
+                return {
+                    depthMultiplier: 1,
+                    scaleMultiplier: 0.04,
+                    rotationMultiplier: 0.2,
+                    throttleDelay: 8 // ~125fps
+                };
+            }
+        };
+        
+        const params = getAnimationParams();
+        
+        // Throttle function for performance
+        let isThrottled = false;
+        const throttle = (func, delay) => {
+            if (isThrottled) return;
+            isThrottled = true;
+            setTimeout(() => {
+                func();
+                isThrottled = false;
+            }, delay);
+        };
+        
+        // Animation function
+        const animateLayers = (x, y) => {
+            if (prefersReducedMotion) return;
+            
             layers.forEach((layer, i) => {
-                const depth = (i + 1) * 20;
+                const depth = (i + 1) * 20 * params.depthMultiplier;
+                const scale = 1 + i * params.scaleMultiplier;
+                const rotateX = y * depth * params.rotationMultiplier;
+                const rotateY = x * depth * params.rotationMultiplier;
+                
                 layer.style.transform = `
                     translate3d(${x * depth}px, ${y * depth}px, ${-depth * 2}px)
-                    scale(${1 + i * 0.04})
-                    rotateX(${y * depth * 0.2}deg)
-                    rotateY(${x * depth * 0.2}deg)
+                    scale(${scale})
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
                 `;
             });
+        };
+        
+        // Mouse move handler for desktop
+        if (!isTouch) {
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                const y = (e.clientY / window.innerHeight - 0.5) * 2;
+                
+                throttle(() => animateLayers(x, y), params.throttleDelay);
+            });
+        }
+        
+        // Touch/orientation handlers for mobile
+        if (isTouch) {
+            // Device orientation for mobile tilt effect
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', (e) => {
+                    if (prefersReducedMotion) return;
+                    
+                    const x = (e.gamma || 0) / 90; // -1 to 1 range
+                    const y = (e.beta || 0) / 90;  // -1 to 1 range
+                    
+                    throttle(() => animateLayers(x * 0.5, y * 0.5), params.throttleDelay);
+                });
+            }
+            
+            // Touch move for mobile devices
+            let touchStartX = 0;
+            let touchStartY = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+            
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const x = ((touch.clientX - touchStartX) / window.innerWidth) * 2;
+                    const y = ((touch.clientY - touchStartY) / window.innerHeight) * 2;
+                    
+                    throttle(() => animateLayers(x * 0.3, y * 0.3), params.throttleDelay);
+                }
+            });
+        }
+        
+        // Entrance animation with responsive timing
+        const animateEntrance = () => {
+            layers.forEach((layer, i) => {
+                const delay = isMobile ? 100 + i * 150 : 100 + i * 200;
+                const duration = isMobile ? '1.2s' : '1.5s';
+                
+                if (layer.classList.contains('layer1')) {
+                    // Layer 1 starts from above and slides down
+                    layer.style.transform = `translate3d(0, -50vh, 0) scale(1)`;
+                    setTimeout(() => {
+                        layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
+                        layer.style.transform = '';
+                    }, 100);
+                } else {
+                    // Other layers start from below and slide up
+                    layer.style.transform = `translate3d(0, 100vh, 0) scale(1)`;
+                    setTimeout(() => {
+                        layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
+                        layer.style.transform = '';
+                    }, delay);
+                }
+            });
+        };
+        
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Reset transforms on resize
+                layers.forEach(layer => {
+                    layer.style.transform = '';
+                });
+                
+                // Update animation parameters
+                const newParams = getAnimationParams();
+                Object.assign(params, newParams);
+            }, 250);
         });
-
-        // Animate layers on load for a soft entrance
-        layers.forEach((layer, i) => {
-            if (layer.classList.contains('layer1')) {
-                // Layer 1 starts from above and slides down
-                layer.style.transform = `translate3d(0, -50vh, 0) scale(1)`;
-                setTimeout(() => {
-                    layer.style.transition = 'transform 1.5s cubic-bezier(.55,.5,.45,.5)';
-                    layer.style.transform = '';
-                }, 100);
+        
+        // Handle visibility change (pause animation when tab is not active)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause animation
+                layers.forEach(layer => {
+                    layer.style.animationPlayState = 'paused';
+                });
             } else {
-                // Other layers start from below and slide up
-                layer.style.transform = `translate3d(0, 100vh, 0) scale(1)`;
-                setTimeout(() => {
-                    layer.style.transition = 'transform 1.5s cubic-bezier(.55,.5,.45,.5)';
-                    layer.style.transform = '';
-                }, 100 + i * 200);
+                // Resume animation
+                layers.forEach(layer => {
+                    layer.style.animationPlayState = 'running';
+                });
             }
         });
+        
+        // Initialize entrance animation
+        if (!prefersReducedMotion) {
+            animateEntrance();
+        }
     }
 });

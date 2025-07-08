@@ -406,22 +406,96 @@
         }
 
         /* Responsive adjustments for hero background */
+        /* Extra small devices (phones, 600px and down) */
         @media (max-width: 600px) {
+            .hero-background .background {
+                perspective: 800px;
+            }
+            
             .hero-background .layer {
                 width: 160vw;
-                height: 50vh;
+                height: 60vh;
             }
             
             .hero-background .layer1 {
+                top: -40vh;
                 left: -30vw;
             }
             
             .hero-background .layer2 {
+                top: 70vh;
                 left: 20vw;
             }
             
             .hero-background .layer3 {
+                top: 80vh;
                 left: 15vw;
+            }
+        }
+
+        /* Small devices (portrait tablets and large phones, 600px to 768px) */
+        @media (min-width: 600px) and (max-width: 768px) {
+            .hero-background .background {
+                perspective: 900px;
+            }
+            
+            .hero-background .layer {
+                width: 150vw;
+                height: 70vh;
+            }
+            
+            .hero-background .layer1 {
+                top: -50vh;
+                left: -25vw;
+            }
+            
+            .hero-background .layer2 {
+                top: 75vh;
+                left: 10vw;
+            }
+            
+            .hero-background .layer3 {
+                top: 85vh;
+                left: 10vw;
+            }
+        }
+
+        /* Medium devices (landscape tablets, 768px to 992px) */
+        @media (min-width: 768px) and (max-width: 992px) {
+            .hero-background .background {
+                perspective: 1000px;
+            }
+            
+            .hero-background .layer {
+                width: 145vw;
+                height: 75vh;
+            }
+            
+            .hero-background .layer1 {
+                top: -55vh;
+                left: -22vw;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px to 1200px) */
+        @media (min-width: 992px) and (max-width: 1200px) {
+            .hero-background .background {
+                perspective: 1100px;
+            }
+        }
+
+        /* Extra large devices (large laptops and desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            .hero-background .background {
+                perspective: 1200px;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-background .layer {
+                transition: none;
+                animation: none;
             }
         }
     </style>
