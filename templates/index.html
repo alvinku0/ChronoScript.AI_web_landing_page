@@ -50,20 +50,9 @@
             color: rgb(96, 165, 250); /* text-blue-400 */
         }
         
-        .hero-background {
+        .product-background {
             /* Light grey-blue base */
-            background-color: #f0f2f5;
-
-            /* Soft “mesh-gradient” blobs */
-            background-image:
-                /* warm beige top-right */
-                radial-gradient(180% 120% at 85% -10%, #ebdccf 0%, rgba(235,220,207,0.0) 55%),
-                /* pale salmon mid-right */
-                radial-gradient(160% 120% at 75% 25%, #e6c4b4 0%, rgba(230,196,180,0.0) 50%),
-                /* cool teal bottom-left  */
-                radial-gradient(170% 140% at -15% 85%, #6da9bb 0%, rgba(109,169,187,0.0) 60%),
-                /* midnight blue curve */
-                radial-gradient(200% 150% at 40% 110%, #1f2228 0%, rgba(31,34,40,0.0) 40%);
+            background: linear-gradient(45deg, #728bb3e1 0%, #edc37ba0 100%);
             
             /* Oversize so blobs ease off the edges */
             background-size: 180% 180%;
@@ -73,7 +62,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero-background {
+            .product-background {
                 background-attachment: scroll;
                 /* Fill mobile screens without stretching blobs oddly */
                 background-size: cover;
@@ -362,6 +351,79 @@
                 right: 10px;
             }
         }
+        
+        /* === HERO BACKGROUND STYLES === */
+        .hero-background {
+            position: relative;
+            background: linear-gradient(45deg, #728bb3e1 0%, #edc37ba0 100%);
+            overflow: hidden;
+        }
+
+        .hero-background .background {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            perspective: 1200px;
+        }
+
+        .hero-background .layer {
+            position: absolute;
+            width: 140vw;
+            height: 80vh;
+            transition: transform 1s cubic-bezier(.55,.5,.45,.5);
+            will-change: transform;
+        }
+
+        .hero-background .layer1 {
+            top: -60vh;
+            left: -20vw;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: linear-gradient(45deg, #f0e6d2 0%, #e6d4a0 100%);
+            box-shadow: 0 20px 60px 0 rgba(0,0,0,0.05);
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .hero-background .layer2 {
+            top: 78vh;
+            left: 0vw;
+            border-radius: 30% 70% 60% 40% / 40% 60% 30% 70%;
+            background: linear-gradient(45deg, #1e3a8a 0%, #112e8e 100%);
+            opacity: 0.1;
+            z-index: 2;
+        }
+
+        .hero-background .layer3 {
+            top: 88vh;
+            left: 5vw;
+            border-radius: 40% 60% 70% 30% / 60% 40% 30% 70%;
+            background: linear-gradient(45deg, #0f172a 0%, #020617 100%);
+            opacity: 0.2;
+            z-index: 3;
+        }
+
+        /* Responsive adjustments for hero background */
+        @media (max-width: 600px) {
+            .hero-background .layer {
+                width: 160vw;
+                height: 50vh;
+            }
+            
+            .hero-background .layer1 {
+                left: -30vw;
+            }
+            
+            .hero-background .layer2 {
+                left: 20vw;
+            }
+            
+            .hero-background .layer3 {
+                left: 15vw;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -455,6 +517,13 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-background relative min-h-screen flex items-center justify-center">
+        <!-- Animated Background Layers -->
+        <div class="background">
+            <div class="layer layer1"></div>
+            <div class="layer layer2"></div>
+            <div class="layer layer3"></div>
+        </div>
+        
         <div class="relative w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col text-center max-w-8xl mx-auto">
                 <div class="mb-8 sm:mb-12 lg:mb-16">
@@ -484,7 +553,7 @@
                         </a>
                     </div>
                     <!-- Scroll Indicator -->
-                    <a href="#product" class="absolute left-1/2 -bottom-32 transform -translate-x-1/2 animate-bounce hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    <a href="#product" class="absolute left-1/2 -bottom-24 transform -translate-x-1/2 animate-bounce hover:scale-110 transition-transform duration-300 cursor-pointer">
                         <div class="flex flex-col items-center space-y-1">
                             <i class="fas fa-chevron-down text-white/60 text-lg hover:text-white/80 transition-colors"></i>
                             <i class="fas fa-chevron-down text-white/40 text-sm hover:text-white/60 transition-colors"></i>
@@ -548,11 +617,11 @@
     </section>
 
     <!-- Product Screenshot Carousel Section -->
-    <section id="screenshots" class="py-20 hero-background">
+    <section id="screenshots" class="py-20 product-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="w-full max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto">
                 <div class="relative">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-lg opacity-30"></div>
+                    <div class="absolute -inset-4 bg-gradient-to-r from-gray-800 via-gray-500 to-gray-800 rounded-3xl blur-lg opacity-30"></div>
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl">
                         <div class="image-carousel">
                             <div class="carousel-container auto-play" id="heroCarousel">
@@ -781,7 +850,7 @@
                     <!-- Contact Info Cards -->
                     <div class="space-y-4">
                         <div class="flex items-center space-x-4 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-slate-300 to-slate-600 rounded-xl flex items-center justify-center">
                                 <i class="fas fa-envelope text-white"></i>
                             </div>
                             <div>
@@ -794,7 +863,7 @@
                 </div>
                 
                 <!-- Contact Form -->
-                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                <div class="fade-in-up">
                     <div class="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/50">
                         <div class="text-center mb-6">
                             <h3 class="text-2xl font-bold text-gray-900 mb-2">Get Your Custom Demo</h3>
