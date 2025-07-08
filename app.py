@@ -4,11 +4,21 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_limiter.errors import RateLimitExceeded
 from flask_mail import Mail, Message
+from flask_minify import minify
 import os
 import re
 from datetime import datetime
 
 app = Flask(__name__)
+
+# Production optimization (only enable in production)
+if not app.debug:
+    app.config['COMPRESS_MIMETYPES'] = [
+        'text/html', 'text/css', 'text/xml', 'application/json',
+        'application/javascript', 'application/xml+rss',
+        'application/atom+xml', 'image/svg+xml'
+    ]
+    minify(app=app, html=True, js=False, cssless=False)
 
 # Initialize rate limiter
 limiter = Limiter(
