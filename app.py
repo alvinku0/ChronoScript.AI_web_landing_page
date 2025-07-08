@@ -37,7 +37,7 @@ if missing_vars:
 
 # flask_mail configuration
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', '587'))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
@@ -63,7 +63,22 @@ def security_headers(response):
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
-    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self'"
+    
+    # Content Security Policy - Updated to allow all required external resources
+    csp_directives = [
+        "default-src 'self'",
+        "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
+        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+        "img-src 'self' data: https:",
+        "connect-src 'self'",
+        "frame-src 'none'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'"
+    ]
+    
+    response.headers['Content-Security-Policy'] = "; ".join(csp_directives)
     return response
 
 @app.route('/')
@@ -262,5 +277,5 @@ def page_not_found(error):
 #   gunicorn -w 4 -b 0.0.0.0:5001 app:app
 
 # Local development/testing:
-# if __name__ == '__main__':
-#     app.run(debug=False, host='0.0.0.0', port=8000)
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=8000)
