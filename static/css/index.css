@@ -365,6 +365,7 @@ body {
     height: 80vh;
     transition: transform 1s cubic-bezier(.55,.5,.45,.5);
     will-change: transform;
+    animation: layerFloat 6s ease-in-out infinite;
 }
 
 .hero-background .layer1 {
@@ -393,6 +394,59 @@ body {
     background: linear-gradient(45deg, #0f172a 0%, #020617 100%);
     opacity: 0.2;
     z-index: 3;
+}
+
+/* Layer floating animation keyframes */
+@keyframes layerFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(0.5deg);
+    }
+    50% {
+        transform: translateY(5px) rotate(-0.5deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(0.3deg);
+    }
+}
+
+.hero-background .layer1 {
+    animation-delay: 0s;
+    animation-duration: 8s;
+}
+
+.hero-background .layer2 {
+    animation-delay: 1s;
+    animation-duration: 10s;
+}
+
+.hero-background .layer3 {
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+/* Mobile-optimized layer animation */
+@media (max-width: 768px) {
+    .hero-background .layer {
+        animation-duration: 8s;
+    }
+    
+    @keyframes layerFloat {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-5px) rotate(0.3deg);
+        }
+        50% {
+            transform: translateY(3px) rotate(-0.3deg);
+        }
+        75% {
+            transform: translateY(-3px) rotate(0.2deg);
+        }
+    }
 }
 
 /* Responsive adjustments for hero background */

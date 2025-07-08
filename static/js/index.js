@@ -336,21 +336,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Entrance animation with responsive timing
         const animateEntrance = () => {
             layers.forEach((layer, i) => {
-                const delay = isMobile ? 100 + i * 150 : 100 + i * 200;
+                const delay = isMobile ? 50 + i * 100 : 50 + i * 150;
                 const duration = isMobile ? '1.2s' : '1.5s';
                 
                 if (layer.classList.contains('layer1')) {
                     // Layer 1 starts from above and slides down
                     layer.style.transform = `translate3d(0, -50vh, 0) scale(1)`;
+                    layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
+                    // Start immediately, no delay for first layer
                     setTimeout(() => {
-                        layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
                         layer.style.transform = '';
-                    }, 100);
+                    }, 10);
                 } else {
                     // Other layers start from below and slide up
                     layer.style.transform = `translate3d(0, 100vh, 0) scale(1)`;
+                    layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
                     setTimeout(() => {
-                        layer.style.transition = `transform ${duration} cubic-bezier(.55,.5,.45,.5)`;
                         layer.style.transform = '';
                     }, delay);
                 }
@@ -388,9 +389,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Initialize entrance animation
+        // Initialize entrance animation immediately
         if (!prefersReducedMotion) {
-            animateEntrance();
+            // Start animation immediately when page loads
+            requestAnimationFrame(() => {
+                animateEntrance();
+            });
+        } else {
+            // For reduced motion, just ensure layers are visible
+            layers.forEach(layer => {
+                layer.style.transform = '';
+                layer.style.transition = 'transform 0.5s ease-out';
+            });
         }
     }
 });
