@@ -1,6 +1,10 @@
-.env
-__pycache__/
 .DS_Store
-database/*.db
-myvenv/
 .vscode/
+__pycache__/
+
+.env
+myvenv/
+
+database/*.db
+database/*.db-shm
+database/*.db-wal

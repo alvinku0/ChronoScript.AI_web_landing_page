@@ -9,6 +9,7 @@ from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import re
+import html
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -165,7 +166,7 @@ def submit_contact():
         if not re.match(email_pattern, email):
             return jsonify({'success': False, 'error': 'Please enter a valid email address'}), 400
         
-        # Sanitize inputs (basic XSS prevention)
+        # Sanitize inputs (XSS prevention)
         first_name = first_name[:100]  # Limit length
         last_name = last_name[:100] if last_name else ''
         email = email[:255]
@@ -197,21 +198,22 @@ Submission Time: {contact.created_at}
 Message: {message if message else 'No message provided'}
 """
             
+            # HTML email with proper escaping to prevent XSS
             msg.html = f"""
 <h2>New Contact Form Submission - ChronoScript.AI</h2>
 
 <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
     <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Name:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">{first_name} {last_name}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{html.escape(first_name)} {html.escape(last_name)}</td>
     </tr>
     <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Email:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;"><a href="mailto:{email}">{email}</a></td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><a href="mailto:{html.escape(email)}">{html.escape(email)}</a></td>
     </tr>
     <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Company:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">{company_name if company_name else 'Not provided'}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{html.escape(company_name) if company_name else 'Not provided'}</td>
     </tr>
     <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Submission Time:</td>
@@ -219,7 +221,7 @@ Message: {message if message else 'No message provided'}
     </tr>
     <tr>
         <td style="padding: 8px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Message:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">{message if message else 'No message provided'}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{html.escape(message) if message else 'No message provided'}</td>
     </tr>
 </table>
 
@@ -306,7 +308,7 @@ def require_admin():
         current_time = datetime.now()
         if login_time.tzinfo is not None:
             login_time = login_time.replace(tzinfo=None)
-        if (current_time - login_time).seconds > 1800:  # 30 minutes
+        if (current_time - login_time).total_seconds() > 1800:  # 30 minutes
             session.clear()
             flash('Session expired. Please login again.', 'error')
             return redirect(url_for('admin_login'))
@@ -354,5 +356,5 @@ def page_not_found(error):
 #   gunicorn -w 4 -b 0.0.0.0:5001 app:app
 
 # Local development/testing:
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000)
+# if __name__ == '__main__':
+#     app.run(debug=True, host='0.0.0.0', port=8000)

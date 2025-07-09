@@ -51,24 +51,24 @@
                                 {{ contact.id }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ contact.first_name }} {{ contact.last_name or '' }}
+                                {{ contact.first_name|e }} {{ contact.last_name|e or '' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ contact.email }}
+                                {{ contact.email|e }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ contact.company_name or 'N/A' }}
+                                {{ contact.company_name|e or 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="max-w-xs truncate">
-                                    {{ contact.message or 'N/A' }}
+                                    {{ contact.message|e or 'N/A' }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ contact.created_at.strftime('%Y-%m-%d %H:%M') if contact.created_at else 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ contact.ip_address or 'N/A' }}
+                                {{ contact.ip_address|e or 'N/A' }}
                             </td>
                         </tr>
                         {% endfor %}
