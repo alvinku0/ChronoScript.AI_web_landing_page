@@ -48,7 +48,7 @@ if not ADMIN_PASSWORD:
 ADMIN_PASSWORD_HASH = generate_password_hash(ADMIN_PASSWORD)
 
 # Session configuration for security
-app.config['SESSION_COOKIE_SECURE'] = False # False for testing # True if HTTPS required
+app.config['SESSION_COOKIE_SECURE'] = False # True if HTTPS required in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=120)  # session timeout
@@ -95,7 +95,7 @@ mail = Mail(app)
 # HTTPS enforcement for production
 @app.before_request
 def force_https():
-    """Force HTTPS in production"""
+    """Force HTTPS in production""" ########### uncomment for production
     # if not app.debug and not request.is_secure:
     #     if request.headers.get('X-Forwarded-Proto') != 'https':
     #         return redirect(request.url.replace('http://', 'https://'))
@@ -117,13 +117,13 @@ def security_headers(response):
         "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
-        "img-src 'self' data: https:",
+        "img-src 'self' data: http: https:",   ####### remove http: for production
         "connect-src 'self'",
         "frame-src 'none'",
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",
-        "upgrade-insecure-requests"
+        # "upgrade-insecure-requests" ######## uncomment for production
     ]
     
     response.headers['Content-Security-Policy'] = "; ".join(csp_directives)
