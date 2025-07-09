@@ -1,9 +1,33 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+import sqlite3
 
 # Initialize SQLAlchemy
 db = SQLAlchemy()
+
+# SQLite WAL mode configuration
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    """Configure SQLite for WAL mode and optimal performance"""
+    if isinstance(dbapi_connection, sqlite3.Connection):
+        cursor = dbapi_connection.cursor()
+        # Enable WAL mode for better concurrent access
+        cursor.execute("PRAGMA journal_mode=WAL")
+        # Set synchronous mode to NORMAL for better performance with WAL
+        cursor.execute("PRAGMA synchronous=NORMAL")
+        # Set cache size for better performance (negative value = KB)
+        cursor.execute("PRAGMA cache_size=-64000")  # 64MB cache
+        # Enable foreign key constraints
+        cursor.execute("PRAGMA foreign_keys=ON")
+        # Set timeout for busy database (30 seconds)
+        cursor.execute("PRAGMA busy_timeout=30000")
+        # Optimize for better performance
+        cursor.execute("PRAGMA temp_store=MEMORY")
+        cursor.execute("PRAGMA mmap_size=268435456")  # 256MB memory mapping
+        cursor.close()
 
 class Contact(db.Model):
     """Contact form submission model"""

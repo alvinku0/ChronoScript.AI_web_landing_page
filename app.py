@@ -58,6 +58,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "database", "contacts.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# SQLite WAL mode configuration
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,
+    'pool_recycle': 100,
+    'connect_args': {
+        'check_same_thread': False,
+        'timeout': 30
+    }
+}
+
 # Initialize database
 init_db(app)
 
@@ -104,14 +114,6 @@ def terms():
 def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow()})
-
-# @app.route('/dev/index2')
-# def index2():
-#     return render_template('index2.html')
-
-# @app.route('/dev/index3')
-# def index3():
-#     return render_template('index3.html')
 
 @app.route('/submit_contact', methods=['POST'])
 @limiter.limit("3 per hour")
