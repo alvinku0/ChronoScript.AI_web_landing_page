@@ -1,55 +1,83 @@
-# ChronoScript.AI Landing Page (AI-generated documentation)
+# ChronoScript.AI Landing Page
 
-A responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
+A modern, responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Flask 3.1.1 with SQLAlchemy
-- **Frontend**: HTML5, Tailwind CSS 4.0 (CDN)
-- **JavaScript**: Vanilla JS for smooth interactions
-- **Database**: SQLite (production-ready with PostgreSQL support)
+- **Backend**: Flask 3.1.1 with SQLAlchemy 2.0.41
+- **Frontend**: HTML5, Tailwind CSS 4.0 (CDN), Vanilla JavaScript
+- **Database**: SQLite with SQLAlchemy ORM
 - **Email**: Flask-Mail with SMTP integration
-- **Security**: Flask-Limiter, comprehensive input validation
-- **Server**: Gunicorn for production deployment
-- **Fonts**: Google Fonts (Inter)
+- **Security**: Flask-Limiter, Flask-WTF CSRF protection, input validation
+- **Production**: Gunicorn 23.0.0 ready
+- **Performance**: Flask-Minify for production optimization
+- **Fonts**: System fonts (-apple-system, BlinkMacSystemFont, Helvetica Neue)
 - **Icons**: Font Awesome 6.0
 
 ## 📄 Page Structure
 
 ### Main Landing Page (`/`)
-1. **Home** - Hero section with animated word carousel and main value proposition
-2. **Product** - Three-column feature showcase with hover animations
-3. **Security** - Data protection and infrastructure overview with security icons
-4. **About** - Company information in responsive two-column layout
-5. **Contact** - Advanced contact form with real-time validation and email integration
+- **Hero Section**: Animated word carousel
+- **Product Section**: Three-column feature showcase
+- **Benefits Section**: Product benefits
+- **Security Section**: Data protection and infrastructure overview
+- **About Section**: Company information
+- **Contact Section**: Contact submission form
 
 ### Additional Pages
-- **Terms of Service** (`/terms`) - Complete legal terms with consistent styling
-- **Admin Login** (`/admin/login`) - Secure admin authentication
-- **Admin Dashboard** (`/admin/contacts`) - Contact submissions management
+- **Terms of Service** (`/terms`): Legal terms of service
+- **Admin Login** (`/admin/login`): Secure admin authentication
+- **Admin Dashboard** (`/admin/contacts`): Contact submissions management interface
+- **Health Check** (`/health`): Health monitoring endpoint
 
-## 🔒 Security Features ✅
+## 🔒 Security Features
 
-- ✅ **Rate Limiting**: 3 contact submissions per hour per IP, 20 requests/hour default
-- ✅ **Input Validation**: Email regex validation, length limits, XSS prevention
-- ✅ **SQL Injection Protection**: SQLAlchemy ORM with parameterized queries
-- ✅ **Security Headers**: CSP, HSTS, XSS protection, frame options, CSRF protection
-- ✅ **Session Security**: Secure session handling with cryptographic signing
-- ✅ **Admin Protection**: Password-protected admin area with session management
-- ✅ **Error Handling**: Graceful error handling without information disclosure
-- ✅ **Environment Variables**: Secure configuration management
-- ✅ **Email Validation**: Advanced email validation with regex patterns
-- ✅ **Input Sanitization**: Length limits and content filtering
+### Authentication & Authorization
+- **Admin Protection**: Password-protected admin area with session management
+- **Brute Force Protection**: 5 login attempts per IP with 15-minute lockout
+- **Session Security**: Secure session handling with 30-minute timeout
+- **CSRF Protection**: Flask-WTF CSRF protection on all forms
 
-## 🚀 Production Features
+### Input Validation & Sanitization
+- **Email Validation**: Advanced regex pattern validation
+- **Input Length Limits**: Prevents buffer overflow attacks
+- **XSS Prevention**: HTML escaping and input sanitization
+- **SQL Injection Protection**: SQLAlchemy ORM with parameterized queries
 
-- 🚀 **Gunicorn Configuration**: Multi-worker production server setup (`gunicorn.conf.py`)
-- 📊 **Health Monitoring**: `/health` endpoint for load balancer checks
-- 📝 **Comprehensive Logging**: Rotating file handlers and structured logging (`logging_config.py`)
-- 🔧 **Deployment Scripts**: Automated deployment with environment validation (`deploy.sh`)
-- 🌐 **Nginx Ready**: Reverse proxy configuration included
-- 📧 **Email Integration**: SMTP email notifications for contact submissions
-- 🗄️ **Database Management**: Automatic database initialization and migrations
+### Rate Limiting
+- **Contact Form**: 3 submissions per hour per IP
+- **Admin Login**: 5 attempts per minute
+- **Default Limits**: 20 requests per hour per IP
+
+### Security Headers
+- **Content Security Policy**: Strict CSP with external resource controls
+- **HSTS**: HTTP Strict Transport Security
+- **XSS Protection**: Browser XSS filtering
+- **Frame Options**: Clickjacking protection
+- **Content Type Options**: MIME type sniffing protection
+- **Referrer Policy**: Strict origin when cross-origin
+
+## 🚀 Features
+
+### Contact Management System
+- **Contact Form**: Multi-field form with company information
+- **Email Notifications**: Automatic HTML email notifications to admin
+- **Database Storage**: SQLite database with efficient querying
+- **Admin Dashboard**: View all submissions with sorting and filtering
+- **IP Tracking**: Track submission IP addresses for security
+
+### Frontend Features
+- **Responsive Design**: Mobile responsive layout
+- **Smooth Animations**: Intersection Observer-based animations
+- **Interactive Elements**: Hover effects, smooth scrolling navigation
+- **Word Carousel**: 3D animated text carousel in hero section
+- **Mobile Navigation**: Collapsible mobile menu
+
+### Performance Optimization
+- **Minification**: HTML/CSS/JS minification in production
+- **Caching**: Browser caching with appropriate headers
+- **Lazy Loading**: Intersection Observer for performance
+- **Optimized Images**: Efficient image loading and display
 
 ## 🔧 Configuration
 
@@ -58,13 +86,12 @@ A responsive landing page for ChronoScript.AI built with Flask and Tailwind CSS.
 ```bash
 # Flask Configuration
 SECRET_KEY=your-secret-key-here
-DEBUG=False
 FLASK_ENV=production
 
 # Admin Login Configuration
 ADMIN_PASSWORD=your-admin-password-here
 
-# Email Configuration
+# Email Configuration (SMTP)
 MAIL_SERVER=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USE_TLS=True
@@ -123,7 +150,7 @@ The application uses SQLite for storing contact form submissions. The database w
    Group=ubuntu
    WorkingDirectory=/home/ubuntu/ChronoScript.AI_web_landing_page
    EnvironmentFile=/home/ubuntu/ChronoScript.AI_web_landing_page/.env
-   ExecStart=/home/ubuntu/ChronoScript.AI_web_landing_page/myvenv/bin/gunicorn --workers 5 --bind 127.0.0.1:8000 app:app
+   ExecStart=/home/ubuntu/ChronoScript.AI_web_landing_page/myvenv/bin/gunicorn --workers 4 --bind 127.0.0.1:8000 app:app
    Restart=always
 
    [Install]
@@ -195,25 +222,3 @@ certbot --nginx -d your-domain.com
   systemctl status ChronoScript
   systemctl status nginx
   ```
-
-### Security Features Implemented
-- ✅ Rate limiting
-- ✅ Input validation and sanitization
-- ✅ SQL injection protection (SQLAlchemy ORM)
-- ✅ Secure session handling
-- ✅ Email validation with regex
-- ✅ Input length limits
-- ✅ Error handling without information disclosure
-
-### Additional Production Recommendations
-
-1. **SSL/HTTPS**: Use Let's Encrypt or similar
-2. **Firewall**: Configure UFW or iptables
-3. **Monitoring**: Add logging and monitoring
-4. **Updates**: Regular security updates
-5. **Backup**: Automated database backups
-6. **CDN**: Consider CloudFlare for additional protection
-7. **CSRF Tokens**: Consider Flask-WTF for forms
-8. **Content Security Policy**: Fine-tune CSP headers
-9. **Logging**: Add security event logging
-10. **Health Checks**: Add /health endpoint for monitoring
