@@ -96,9 +96,9 @@ mail = Mail(app)
 @app.before_request
 def force_https():
     """Force HTTPS in production"""
-    if not app.debug and not request.is_secure:
-        if request.headers.get('X-Forwarded-Proto') != 'https':
-            return redirect(request.url.replace('http://', 'https://'))
+    # if not app.debug and not request.is_secure:
+    #     if request.headers.get('X-Forwarded-Proto') != 'https':
+    #         return redirect(request.url.replace('http://', 'https://'))
 
 # Security headers for production
 @app.after_request
