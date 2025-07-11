@@ -11,10 +11,12 @@ import os
 import re
 import html
 from datetime import datetime, timedelta
+import threading
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 
-# Production optimization (only enable in production)
+# Production optimization
 if not app.debug:
     app.config['COMPRESS_MIMETYPES'] = [
         'text/html', 'text/css', 'text/xml', 'application/json',
@@ -23,11 +25,15 @@ if not app.debug:
     ]
     minify(app=app, html=True, js=False, cssless=False)
 
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
+
 # Initialize rate limiter
 limiter = Limiter(
     app=app,
-    key_func=get_remote_address,
-    default_limits=["20 per hour"],
+    key_func=get_remote_address,  # With ProxyFix, this will now return the real client IP
+    default_limits=["500 per day", "100 per hour", "30 per minute"],
     storage_uri="memory://",
 )
 
@@ -51,10 +57,11 @@ ADMIN_PASSWORD_HASH = generate_password_hash(ADMIN_PASSWORD)
 app.config['SESSION_COOKIE_SECURE'] = False # True if HTTPS required in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=120)  # session timeout
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=3)  # session timeout - 3 hours
 
-# Store failed login attempts
+# Store failed login attempts with thread safety
 failed_login_attempts = {}
+failed_login_lock = threading.Lock()
 
 # Validate production environment variables
 required_env_vars = ['MAIL_SERVER', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_DEFAULT_SENDER']
@@ -139,12 +146,13 @@ def terms():
     return render_template('terms.html')
 
 @app.route('/health')
+@limiter.exempt
 def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow()})
 
 @app.route('/submit_contact', methods=['POST'])
-@limiter.limit("3 per hour")
+@limiter.limit("5 per hour")
 def submit_contact():
     try:
         # Get form data
@@ -174,7 +182,7 @@ def submit_contact():
         message = message[:5000] if message else ''  # Limit message length
         
         # Get client IP address
-        ip_address = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ.get('REMOTE_ADDR'))
+        ip_address = request.remote_addr  # ProxyFix ensures this is the real client IP
         
         # Create new contact using SQLAlchemy
         contact = Contact.create_contact(first_name, last_name, email, company_name, message, ip_address)
@@ -255,36 +263,44 @@ def admin_login():
     """Admin login page with brute force protection"""
     if request.method == 'POST':
         password = request.form.get('password')
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ.get('REMOTE_ADDR'))
+        client_ip = request.remote_addr
         
-        # Check if IP is temporarily blocked
-        if client_ip in failed_login_attempts:
-            attempts, last_attempt = failed_login_attempts[client_ip]
-            if attempts >= 5 and (datetime.now() - last_attempt).seconds < 900:  # 15 min lockout
-                flash('Too many failed attempts. Please try again later.', 'error')
-                return render_template('admin_login.html')
-            elif (datetime.now() - last_attempt).seconds >= 900:
-                # Reset attempts after lockout period
-                del failed_login_attempts[client_ip]
-        
-        if password and check_password_hash(ADMIN_PASSWORD_HASH, password):
-            session['admin_logged_in'] = True
-            session['admin_login_time'] = datetime.now().replace(tzinfo=None)
-            session.permanent = True
-            # Clear failed attempts on successful login
-            if client_ip in failed_login_attempts:
-                del failed_login_attempts[client_ip]
-            flash('Successfully logged in!', 'success')
-            return redirect(url_for('admin_contacts'))
-        else:
-            # Track failed login attempts
-            if client_ip not in failed_login_attempts:
-                failed_login_attempts[client_ip] = [1, datetime.now()]
-            else:
-                failed_login_attempts[client_ip][0] += 1
-                failed_login_attempts[client_ip][1] = datetime.now()
+        with failed_login_lock:
+            # Clean up old failed attempts (older than 24 hours)
+            current_time = datetime.now()
+            expired_ips = [ip for ip, (_, last_attempt) in failed_login_attempts.items() 
+                          if (current_time - last_attempt).total_seconds() > 86400]
+            for ip in expired_ips:
+                del failed_login_attempts[ip]
             
-            flash('Invalid password!', 'error')
+            # Check if IP is temporarily blocked
+            if client_ip in failed_login_attempts:
+                attempts, last_attempt = failed_login_attempts[client_ip]
+                if attempts >= 5 and (datetime.now() - last_attempt).total_seconds() < 900:  # 15 min lockout
+                    flash('Too many failed attempts. Please try again later.', 'error')
+                    return render_template('admin_login.html')
+                elif (datetime.now() - last_attempt).total_seconds() >= 900:
+                    # Reset attempts after lockout period
+                    del failed_login_attempts[client_ip]
+            
+            if password and check_password_hash(ADMIN_PASSWORD_HASH, password):
+                session['admin_logged_in'] = True
+                session['admin_login_time'] = datetime.now().replace(tzinfo=None)
+                session.permanent = True
+                # Clear failed attempts on successful login
+                if client_ip in failed_login_attempts:
+                    del failed_login_attempts[client_ip]
+                flash('Successfully logged in!', 'success')
+                return redirect(url_for('admin_contacts'))
+            else:
+                # Track failed login attempts
+                if client_ip not in failed_login_attempts:
+                    failed_login_attempts[client_ip] = [1, datetime.now()]
+                else:
+                    failed_login_attempts[client_ip][0] += 1
+                    failed_login_attempts[client_ip][1] = datetime.now()
+                
+                flash('Invalid password!', 'error')
     
     return render_template('admin_login.html')
 
@@ -292,6 +308,7 @@ def admin_login():
 def admin_logout():
     """Admin logout"""
     session.pop('admin_logged_in', None)
+    session.pop('admin_login_time', None)  # Clear login time as well
     flash('Successfully logged out!', 'success')
     return redirect(url_for('admin_login'))
 
@@ -308,7 +325,7 @@ def require_admin():
         current_time = datetime.now()
         if login_time.tzinfo is not None:
             login_time = login_time.replace(tzinfo=None)
-        if (current_time - login_time).total_seconds() > 1800:  # 30 minutes
+        if (current_time - login_time).total_seconds() > 10800:  # 3 hours
             session.clear()
             flash('Session expired. Please login again.', 'error')
             return redirect(url_for('admin_login'))
