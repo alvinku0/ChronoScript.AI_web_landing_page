@@ -351,9 +351,7 @@ def admin_contacts():
 def handle_rate_limit_exceeded(e):
     """Handle rate limit exceeded errors for contact form submissions"""
     return jsonify({
-        'success': False, 
         'error': 'You have submitted too many requests. Please email us for support.',
-        'retry_after': getattr(e, 'retry_after', 3600)  # 1 hour in seconds
     }), 429
 
 @app.errorhandler(500)
