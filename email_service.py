@@ -9,6 +9,7 @@ and HTML injection attacks.
 import bleach
 from markupsafe import Markup
 from flask_mail import Message
+from datetime import datetime, timezone, timedelta
 
 
 # Configure bleach for HTML sanitization
@@ -27,6 +28,39 @@ def sanitize_html_content(content):
     return bleach.clean(str(content), **BLEACH_CONFIG)
 
 
+def format_timestamp_HKT(timestamp_str):
+    """Format timestamp string to human-readable format in Hong Kong Time (HKT)"""
+    if not timestamp_str:
+        return 'Not available'
+    
+    try:
+        # Parse ISO format timestamp
+        if isinstance(timestamp_str, str):
+            # Handle ISO format with or without 'T' separator
+            if 'T' in timestamp_str:
+                dt = datetime.fromisoformat(timestamp_str.replace('Z', ''))
+            else:
+                # Handle other common formats
+                dt = datetime.fromisoformat(timestamp_str)
+        else:
+            # If it's already a datetime object
+            dt = timestamp_str
+        
+        # Assume the datetime is in UTC and convert to HKT (UTC+8)
+        if dt.tzinfo is None:
+            # Make it timezone-aware as UTC
+            dt = dt.replace(tzinfo=timezone.utc)
+        
+        # Convert to Hong Kong Time (UTC+8)
+        hkt_timezone = timezone(timedelta(hours=8))
+        dt_hkt = dt.astimezone(hkt_timezone)
+        
+        # Format as human-readable string
+        return dt_hkt.strftime('%B %d, %Y at %I:%M %p HKT')
+    except (ValueError, TypeError):
+        return str(timestamp_str)    # If parsing fails, return the original string
+
+
 def create_email_from_html_template(contact_data):
     """Create a secure HTML email template with proper sanitization"""
     # Sanitize all input data
@@ -36,7 +70,7 @@ def create_email_from_html_template(contact_data):
         'email': sanitize_html_content(contact_data.get('email', '')),
         'company_name': sanitize_html_content(contact_data.get('company_name', '')),
         'message': sanitize_html_content(contact_data.get('message', '')),
-        'created_at': sanitize_html_content(str(contact_data.get('created_at', ''))),
+        'created_at': format_timestamp_HKT(contact_data.get('created_at', '')),
         'ip_address': sanitize_html_content(contact_data.get('ip_address', ''))
     }
     
@@ -122,7 +156,7 @@ def create_email_from_text_template(contact_data):
         'email': bleach.clean(str(contact_data.get('email', '')), strip=True),
         'company_name': bleach.clean(str(contact_data.get('company_name', '')), strip=True),
         'message': bleach.clean(str(contact_data.get('message', '')), strip=True),
-        'created_at': str(contact_data.get('created_at', '')),
+        'created_at': format_timestamp_HKT(contact_data.get('created_at', '')),
         'ip_address': bleach.clean(str(contact_data.get('ip_address', '')), strip=True)
     }
     
